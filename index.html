@@ -151,6 +151,7 @@
         <img id="capturedImage" src="" style="display: none;">
     </div>
     <div class="action-button-container">
+        <input type="file" accept="image/*" capture="environment" id="fileInput" style="display: none;">
         <button id="onCameraButton">On Camera</button>
     </div>
     <br>
@@ -163,64 +164,23 @@
 </div>
 
 <script>
-var cameraActive = false;
-var cameraStream;
-var cameraElement;
-
 document.getElementById('onCameraButton').addEventListener('click', function() {
-    if (cameraActive) {
-        switchToCameraMode();
-    } else {
-        switchToCaptureMode();
-    }
+    document.getElementById('fileInput').click();
 });
 
-function switchToCaptureMode() {
-    clearResults();
-
-    function takePhotoFromCamera() {
-        navigator.mediaDevices.getUserMedia({ video: { facingMode: 'environment' } })
-            .then(function(stream) {
-                cameraElement = document.createElement('video');
-                cameraElement.srcObject = stream;
-                cameraElement.play();
-
-                document.body.appendChild(cameraElement);
-
-                var canvas = document.createElement('canvas');
-                var context = canvas.getContext('2d');
-
-                var captureButton = document.createElement('button');
-                captureButton.textContent = 'Capture';
-                document.body.appendChild(captureButton);
-
-                captureButton.addEventListener('click', function() {
-                    canvas.width = cameraElement.videoWidth;
-                    canvas.height = cameraElement.videoHeight;
-                    context.drawImage(cameraElement, 0, 0, canvas.width, canvas.height);
-                    
-                    var imgUrl = canvas.toDataURL('image/jpeg');
-
-                    var capturedImage = document.getElementById('capturedImage');
-                    capturedImage.src = imgUrl;
-                    capturedImage.style.display = 'block';
-                    
-                    stream.getTracks().forEach(function(track) {
-                        track.stop();
-                    });
-                    cameraElement.pause();
-                    cameraElement.srcObject = null;
-                    cameraElement.remove();
-                    captureButton.remove();
-                });
-            })
-            .catch(function(err) {
-                console.error('Error accessing camera:', err);
-            });
+document.getElementById('fileInput').addEventListener('change', function(event) {
+    var file = event.target.files[0];
+    if (file) {
+        var reader = new FileReader();
+        reader.onload = function(e) {
+            var imgUrl = e.target.result;
+            var capturedImage = document.getElementById('capturedImage');
+            capturedImage.src = imgUrl;
+            capturedImage.style.display = 'block';
+        };
+        reader.readAsDataURL(file);
     }
-
-    takePhotoFromCamera();
-}
+});
 
     function recognizeImage(imgUrl) {
         fetch('https://vision.googleapis.com/v1/images:annotate?key=AIzaSyClrPxLer-VRuWIwtp_9v0xwCViUve5HMc', {
