@@ -144,18 +144,16 @@
         }
     </style>
 </head>
+    
 <body>
 <div class="container">
     <h1>TriLingo Tots</h1>
     <h3>Take a picture to find out what it is called in English, Malay, and Chinese!</h3>
     <div id="uploadBox">
-        <input type="file" accept="image/*" capture="environment" id="captureInput" style="display: none;">
-        <img id="uploadedImage" src="" style="display: none;">
+        <img id="capturedImage" src="" style="display: none;">
     </div>
     <div class="action-button-container">
-        <button id="actionButton">Take a Picture</button>
-        <input type="file" accept="image/*" id="uploadInput" style="display: none;">
-        <label for="uploadInput">Upload Image</label>
+        <input type="file" accept="image/*" id="captureInput" capture="camera">
     </div>
     <br>
     <div id="result" class="result-columns"></div>
@@ -167,105 +165,23 @@
 </div>
 
 <script>
-    var cameraActive = false;
-    var videoStream;
-    var videoElement;
-
-    document.getElementById('actionButton').addEventListener('click', function() {
-        if (cameraActive) {
-            switchToCameraMode();
-        } else {
-            document.getElementById('fileInput').click();
-        }
-    });
-
-    document.getElementById('fileInput').addEventListener('change', function(event) {
+    document.getElementById('captureInput').addEventListener('change', function(event) {
         var file = event.target.files[0];
-        var imgUrl = URL.createObjectURL(file);
-        document.getElementById('uploadedImage').src = imgUrl;
-        document.getElementById('uploadedImage').style.display = 'block';
-        recognizeImage(imgUrl);
+        if (file) {
+            var imgUrl = URL.createObjectURL(file);
+            document.getElementById('capturedImage').src = imgUrl;
+            document.getElementById('capturedImage').style.display = 'block';
+            recognizeImage(file);
+        }
     });
 
-    document.getElementById('captureButton').addEventListener('click', function() {
-        takePhoto();
-    });
+    function recognizeImage(imageFile) {
+        var formData = new FormData();
+        formData.append('image', imageFile);
 
-    function switchToCaptureMode() {
-        clearResults();
-
-        navigator.mediaDevices.getUserMedia({ video: true })
-            .then(function(stream) {
-                videoStream = stream;
-                videoElement = document.createElement('video');
-                videoElement.srcObject = stream;
-                videoElement.play();
-                document.getElementById('cameraBox').appendChild(videoElement);
-                document.getElementById('cameraBox').style.display = 'block';
-                document.getElementById('uploadedImage').style.display = 'none';
-                document.querySelector('.action-button-container').style.display = 'none';
-                document.querySelector('.capture-button-container').style.display = 'block';
-                cameraActive = true;
-            })
-            .catch(function(err) {
-                console.error('Error accessing camera:', err);
-            });
-    }
-
-    function switchToCameraMode() {
-        document.getElementById('cameraBox').style.display = 'none';
-        document.getElementById('uploadedImage').style.display = 'block';
-        document.querySelector('.action-button-container').style.display = 'flex';
-        document.querySelector('.capture-button-container').style.display = 'none';
-        cameraActive = false;
-
-        if (videoStream) {
-            videoStream.getTracks().forEach(function(track) {
-                track.stop();
-            });
-        }
-
-        if (videoElement) {
-            videoElement.pause();
-            videoElement.srcObject = null;
-            videoElement.remove();
-            videoElement = null;
-        }
-    }
-
-    function takePhoto() {
-        var canvas = document.createElement('canvas');
-        canvas.width = videoElement.videoWidth;
-        canvas.height = videoElement.videoHeight;
-        var context = canvas.getContext('2d');
-        context.drawImage(videoElement, 0, 0, canvas.width, canvas.height);
-        var imgUrl = canvas.toDataURL('image/jpeg');
-        document.getElementById('uploadedImage').src = imgUrl;
-        document.getElementById('uploadedImage').style.display = 'block';
-        switchToCameraMode();
-        recognizeImage(imgUrl);
-    }
-
-    function recognizeImage(imgUrl) {
         fetch('https://vision.googleapis.com/v1/images:annotate?key=AIzaSyClrPxLer-VRuWIwtp_9v0xwCViUve5HMc', {
             method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({
-                "requests": [
-                    {
-                        "image": {
-                            "content": imgUrl.split(",")[1] // Extracting base64 data
-                        },
-                        "features": [
-                            {
-                                "type": "LABEL_DETECTION"
-                            }
-                        ]
-                    }
-                ]
-            }),
+            body: formData,
         })
         .then(response => {
             if (!response.ok) {
