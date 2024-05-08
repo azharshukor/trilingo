@@ -97,16 +97,15 @@
 	}
 
 .result-column {
-    flex: 1 1 auto;
+    flex: 1 0 0; /* Equal width for all columns */
     margin: 0 15px;
     padding: 0;
     margin-bottom: 20px;
-    max-width: calc((100% - 40px - 20px) / 3);
     box-sizing: border-box;
     position: relative;
     display: flex;
-    flex-direction: column; /* Ensure header and text are stacked vertically */
-    align-items: center; /* Center content horizontally */
+    flex-direction: column;
+    align-items: center;
 }
 
 .result-column::after {
@@ -143,6 +142,7 @@
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
+    max-width: 100%; /* Ensure results container takes full width */
 }
 
         .action-button-container {
