@@ -239,7 +239,6 @@ async function recognizeImage(file) {
             // Hide loading bar when results are returned
             hideLoadingBar();
         
-        .then(data => {
             if (data.responses && data.responses[0] && data.responses[0].labelAnnotations && data.responses[0].labelAnnotations.length > 0) {
                 const labels = data.responses[0].labelAnnotations.map(annotation => annotation.description);
                 const recognitionResult = {
@@ -269,23 +268,19 @@ async function recognizeImage(file) {
                 };
                 displayResult(recognitionResult);
             }
-        })
-        .catch(error => {
+        } catch (error) {
             console.error('Error recognizing image:', error);
             hideLoadingBar(); // Make sure to hide loading bar on error
-        });
-        reader.readAsDataURL(file); // Read the file as data URL
-    }
+        }
+    };
 
-    function showLoadingBar() {
-    document.getElementById('loadingBar').style.width = '100%'; // Show loading bar by setting width to 100%
-    document.getElementById('loadingBar').style.display = 'block'; // Make loading bar visible
-    }
+    reader.readAsDataURL(file); // Read the file as data URL
+}
 
-    function hideLoadingBar() {
+function hideLoadingBar() {
     document.getElementById('loadingBar').style.width = '0'; // Hide loading bar by setting width to 0
     document.getElementById('loadingBar').style.display = 'none'; // Hide loading bar
-    }
+}
 
     function displayResult(recognitionResult) {
         clearResults();
