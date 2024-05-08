@@ -148,7 +148,7 @@
     <h3>Take a picture to find out what it is called in English, Malay, and Chinese!</h3>
     <div id="uploadBox">
         <div id="cameraBox"></div>
-        <img id="uploadedImage" src="" style="display: none;">
+        <img id="capturedImage" src="" style="display: none;">
     </div>
     <div class="action-button-container">
         <button id="onCameraButton">On Camera</button>
@@ -158,17 +158,16 @@
 </div>
 
 <div class="footer-section">
-    <div style="font-family: 'Poetsen One'; font-size: 16pt; font-weight: 800; color: white;">Trilingo Tots</div>
+    <div style="font-family: 'Poetsen One'; font-size: 16pt; font-weight: 800; color: white;">Trilingo</div>
     Trilingo is in the developmental phase.<br>Please share your thoughts with us at trilingotots@gmail.com.
 </div>
 
 <script>
-
 var cameraActive = false;
 var cameraStream;
 var cameraElement;
 
-document.getElementById('actionButton').addEventListener('click', function() {
+document.getElementById('onCameraButton').addEventListener('click', function() {
     if (cameraActive) {
         switchToCameraMode();
     } else {
@@ -176,16 +175,8 @@ document.getElementById('actionButton').addEventListener('click', function() {
     }
 });
 
-document.getElementById('captureButton').addEventListener('click', function() {
-    takePhoto();
-});
-
 function switchToCaptureMode() {
     clearResults();
-
-    document.getElementById('onCameraButton').addEventListener('click', function() {
-        takePhotoFromCamera();
-    });
 
     function takePhotoFromCamera() {
         navigator.mediaDevices.getUserMedia({ video: { facingMode: 'environment' } })
@@ -227,6 +218,8 @@ function switchToCaptureMode() {
                 console.error('Error accessing camera:', err);
             });
     }
+
+    takePhotoFromCamera();
 }
 
     function recognizeImage(imgUrl) {
