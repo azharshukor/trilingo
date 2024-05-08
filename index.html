@@ -169,11 +169,14 @@
                 var imgUrl = e.target.result;
                 var capturedImage = document.getElementById('capturedImage');
                 capturedImage.src = imgUrl;
-                capturedImage.style.display = 'block';
-            };
-            reader.readAsDataURL(file);
-        }
-    });
+            	capturedImage.style.display = 'block';
+            
+            // Call the recognizeImage function with the image URL
+            recognizeImage(imgUrl);
+        };
+        reader.readAsDataURL(file);
+    }
+});
 
     function recognizeImage(imgUrl) {
         fetch('https://vision.googleapis.com/v1/images:annotate?key=AIzaSyClrPxLer-VRuWIwtp_9v0xwCViUve5HMc', {
