@@ -87,40 +87,39 @@
     	}
 
         #result {
-            color: #E78895;
-            display: flex; 
-            justify-content: space-between; 
-            background-color: #FFF7F1;
-        }
+    		color: #E78895;
+    		display: flex;
+    		justify-content: center; /* Center the content horizontally */
+    		background-color: #FFF7F1;
+	}
 
-        .result-column {
-            flex: 1;
-            margin: 0;
-            padding: 0;
-            margin-bottom: 20px;
-            margin-left: 20px;
-            margin-right: 20px;
-        }
+	.result-column {
+    		flex: 1 1 auto; /* Allow flex items to grow and shrink equally */
+    		max-width: 30%; /* Adjust maximum width to your preference */
+    		margin: 0 10px; /* Shorthand for margin */
+    		padding: 0;
+    		margin-bottom: 20px;
+	}
 
-        .result-heading {
-            font-family: 'Poetsen One';
-            font-size: 18px;
-            font-weight: 100;
-            margin: 0;
-            padding: 0;
-            color: #D20062;
-            line-height: 1;
-            margin-top: 40px;
-        }
+	.result-heading {
+    		font-family: 'Poetsen One';
+    		font-size: 16px;
+    		font-weight: 100;
+    		margin: 0;
+    		padding: 0;
+    		color: #D20062;
+    		line-height: 1;
+    		margin-top: 40px;
+	}
 
-        .result-text {
-            font-family: 'Poppins';
-            font-size: 26px;
-            color: black;
-            font-weight: 600;
-            line-height: 1.5;
-            cursor: pointer; /* Add cursor pointer */
-        }
+	.result-text {
+    		font-family: 'Arial';
+    		font-size: 22px;
+    		color: black;
+    		font-weight: 600;
+    		line-height: 1.5;
+    		cursor: pointer;
+	}
 
         #recognizing {
             font-size: 18px;
