@@ -93,38 +93,48 @@
     		color: #E78895;
     		display: flex;
     		justify-content: center; /* Center the content horizontally */
-    		background-color: #FFF7F1;
+    		background-color: white; /* Set background color to white */
 	}
 
-	.result-column {
-    		flex: 1 1 auto; /* Allow flex items to grow and shrink equally */
-   		 margin: 0 5px; /* Adjust margin to create gaps between columns */
-  		  padding: 0;
- 		   margin-bottom: 10px;
-		margin-top: 10px;
- 	  	 max-width: calc((100% - 40px - 20px) / 3); /* Adjust maximum width considering gaps */
- 		  box-sizing: border-box; /* Include padding and border in the element's total width */
-	}
+.result-column {
+    flex: 1 1 auto; /* Allow flex items to grow and shrink equally */
+    margin: 0 5px; /* Adjust margin to create gaps between columns */
+    padding: 0;
+    margin-bottom: 20px;
+    max-width: calc((100% - 40px - 20px) / 3); /* Adjust maximum width considering gaps */
+    box-sizing: border-box; /* Include padding and border in the element's total width */
+    position: relative; /* Add relative positioning for pseudo-element */
+}
 
-	.result-heading {
-    		font-family: 'Poetsen One';
-    		font-size: 16px;
-    		font-weight: 100;
-    		margin: 0;
-    		padding: 0;
-    		color: #D20062;
-    		line-height: 1;
-    		margin-top: 20px;
-	}
+.result-column:not(:last-child)::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    right: -5px; /* Adjust position to overlay the gap */
+    bottom: 0;
+    width: 1px; /* Set the width of the vertical line */
+    background-color: #D20062; /* Set the color of the vertical line */
+}
 
-	.result-text {
-    		font-family: 'Arial';
-    		font-size: 20px;
-    		color: black;
-    		font-weight: 600;
-    		line-height: 1.5;
-    		cursor: pointer;
-	}
+.result-heading {
+    font-family: 'Poetsen One';
+    font-size: 16px;
+    font-weight: 100;
+    margin: 0;
+    padding: 0;
+    color: #D20062;
+    line-height: 1;
+    margin-top: 40px;
+}
+
+.result-text {
+    font-family: 'Arial';
+    font-size: 22px;
+    color: black;
+    font-weight: 600;
+    line-height: 1.5;
+    cursor: pointer;
+}
 
         .action-button-container {
             display: flex;
