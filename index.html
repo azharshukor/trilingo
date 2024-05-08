@@ -104,17 +104,17 @@
     max-width: calc((100% - 40px - 20px) / 3);
     box-sizing: border-box;
     position: relative;
-    display: flex; /* Center content horizontally */
-    justify-content: center; /* Center content horizontally */
-    align-items: center; /* Center content vertically */
+    display: flex;
+    flex-direction: column; /* Ensure header and text are stacked vertically */
+    align-items: center; /* Center content horizontally */
 }
 
-.result-column:not(:last-child)::after {
+.result-column::after {
     content: '';
     position: absolute;
     top: 0;
-    right: -5px;
     bottom: 0;
+    right: -5px;
     width: 1px;
     background-color: #D20062;
 }
@@ -123,11 +123,10 @@
     font-family: 'Poetsen One';
     font-size: 14px;
     font-weight: 100;
-    margin: 0;
-    padding: 0;
     color: #D20062;
     line-height: 1;
     margin-top: 20px;
+    margin-bottom: 10px;
 }
 
 .result-text {
@@ -137,6 +136,13 @@
     font-weight: 600;
     line-height: 1.5;
     cursor: pointer;
+    text-align: center;
+}
+
+.results-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
 }
 
         .action-button-container {
