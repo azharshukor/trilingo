@@ -7,8 +7,6 @@
        
         @import url('https://fonts.googleapis.com/css2?family=Poetsen+One&display=swap');
 
-        @import url('https://fonts.googleapis.com/css2?family=Poppins+One&display=swap');
-
         body {
             font-family: 'Arial', sans-serif;
             background-color: #FFF7F1;
@@ -173,45 +171,43 @@
     TriLingo Tots is in the developmental phase.<br>Please share your thoughts with us at trilingotots@gmail.com.
 </div>
 
-<div id="apiResponse" style="margin-top: 20px; padding: 20px; background-color: #f0f0f0;">
-    <h2>API Response</h2>
-    <pre id="apiResponseData"></pre>
-</div>
-
 <script>
 
     document.getElementById('captureInput').addEventListener('change', function(event) {
-    var file = event.target.files[0];
-    if (file) {
-        var imgUrl = URL.createObjectURL(file);
-        document.getElementById('capturedImage').src = imgUrl;
-        document.getElementById('capturedImage').style.display = 'block';
-        recognizeImage(file); // Passing the file object to the recognizeImage function
-    }
-});
+        var file = event.target.files[0];
+        if (file) {
+            var imgUrl = URL.createObjectURL(file);
+            document.getElementById('capturedImage').src = imgUrl;
+            document.getElementById('capturedImage').style.display = 'block';
+            recognizeImage(file); // Pass the file object directly
+        }
+    });
 
-function recognizeImage(imgUrl) {
-        fetch('https://vision.googleapis.com/v1/images:annotate?key=AIzaSyClrPxLer-VRuWIwtp_9v0xwCViUve5HMc', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({
-                "requests": [
-                    {
-                        "image": {
-                            "content": imgUrl.split(",")[1] // Extracting base64 data
-                        },
-                        "features": [
-                            {
-                                "type": "LABEL_DETECTION"
-                            }
-                        ]
-                    }
-                ]
-            }),
-        })
-        .then(response => {
+    function recognizeImage(file) { // Modify function signature to accept the file object
+        var reader = new FileReader();
+        reader.onloadend = function() {
+            var base64data = reader.result.split(',')[1]; // Extract base64 data
+            fetch('https://vision.googleapis.com/v1/images:annotate?key=YOUR_API_KEY', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    "requests": [
+                        {
+                            "image": {
+                                "content": base64data // Pass base64 data directly
+                            },
+                            "features": [
+                                {
+                                    "type": "LABEL_DETECTION"
+                                }
+                            ]
+                        }
+                    ]
+                }),
+            })
+            .then(response => {
             if (!response.ok) {
                 throw new Error('Network response was not ok');
             }
@@ -251,6 +247,7 @@ function recognizeImage(imgUrl) {
         .catch(error => {
             console.error('Error recognizing image:', error);
         });
+        reader.readAsDataURL(file); // Read the file as data URL
     }
 
     function displayResult(recognitionResult) {
