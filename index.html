@@ -135,14 +135,9 @@
             color: #E78895;
         }
 
-        .capture-button-container {
-            text-align: center;
-            margin-top: 20px;
-        }
-
         .action-button-container {
             display: flex;
-            justify-content: center; /* Center the button horizontally */
+            justify-content: center;
             margin-top: 20px;
         }
     </style>
@@ -168,7 +163,28 @@
 </div>
 
 <script>
-    document.getElementById('onCameraButton').addEventListener('click', function() {
+
+var cameraActive = false;
+    var videoStream;
+    var videoElement;
+
+    document.getElementById('actionButton').addEventListener('click', function() {
+        if (cameraActive) {
+            switchToCameraMode();
+        } else {
+            switchToCaptureMode();
+        }
+    });
+
+    document.getElementById('captureButton').addEventListener('click', function() {
+        takePhoto();
+    });
+
+    function switchToCaptureMode() {
+        clearResults();
+
+	
+	document.getElementById('onCameraButton').addEventListener('click', function() {
             takePhotoFromCamera();
         });
 
