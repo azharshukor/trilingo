@@ -175,29 +175,29 @@
 
 <script>
     document.getElementById('captureInput').addEventListener('change', function(event) {
-        var file = event.target.files[0];
-        if (file) {
-            var imgUrl = URL.createObjectURL(file);
-            document.getElementById('capturedImage').src = imgUrl;
-            document.getElementById('capturedImage').style.display = 'block';
-            recognizeImage(file);
+    var file = event.target.files[0];
+    if (file) {
+        var imgUrl = URL.createObjectURL(file);
+        document.getElementById('capturedImage').src = imgUrl;
+        document.getElementById('capturedImage').style.display = 'block';
+        recognizeImage(file);
+    }
+});
+
+function recognizeImage(imageFile) {
+    var formData = new FormData();
+    formData.append('image', imageFile);
+
+    fetch('https://vision.googleapis.com/v1/images:annotate?key=AIzaSyClrPxLer-VRuWIwtp_9v0xwCViUve5HMc', {
+        method: 'POST',
+        body: formData,
+    })
+    .then(response => {
+        if (!response.ok) {
+            throw new Error('Network response was not ok');
         }
-    });
-
-    function recognizeImage(imageFile) {
-        var formData = new FormData();
-        formData.append('image', imageFile);
-
-        fetch('https://vision.googleapis.com/v1/images:annotate?key=AIzaSyClrPxLer-VRuWIwtp_9v0xwCViUve5HMc', {
-            method: 'POST',
-            body: formData,
-        })
-        .then(response => {
-            if (!response.ok) {
-                throw new Error('Network response was not ok');
-            }
-            return response.json();
-        })
+        return response.json();
+    })
         .then(data => {
             if (data.responses && data.responses[0] && data.responses[0].labelAnnotations && data.responses[0].labelAnnotations.length > 0) {
                 const labels = data.responses[0].labelAnnotations.map(annotation => annotation.description);
