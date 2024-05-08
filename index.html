@@ -97,23 +97,24 @@
 	}
 
 .result-column {
-    flex: 1 1 auto; /* Allow flex items to grow and shrink equally */
-    margin: 0 15px; /* Adjust margin to create gaps between columns */
+    flex: 1 1 auto;
+    margin: 0 15px;
     padding: 0;
     margin-bottom: 20px;
-    max-width: calc((100% - 40px - 20px) / 3); /* Adjust maximum width considering gaps */
-    box-sizing: border-box; /* Include padding and border in the element's total width */
-    position: relative; /* Add relative positioning for pseudo-element */
+    max-width: calc((100% - 40px - 20px) / 3);
+    box-sizing: border-box;
+    position: relative;
+    height: 200px; /* Ensure all columns have the same height */
 }
 
 .result-column:not(:last-child)::after {
     content: '';
     position: absolute;
     top: 0;
-    right: -5px; /* Adjust position to overlay the gap */
+    right: -5px;
     bottom: 0;
-    width: 1px; /* Set the width of the vertical line */
-    background-color: #D20062; /* Set the color of the vertical line */
+    width: 1px;
+    background-color: #D20062;
 }
 
 .result-heading {
@@ -137,11 +138,15 @@
 }
 
         .action-button-container {
-            display: flex;
-            justify-content: center;
-            margin-top: 20px;
-	margin-bottom: 20px;
-        }
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+    margin-bottom: 20px;
+    max-width: 600px; /* Add this to match the width of .container */
+    margin-left: auto; /* Center the container horizontally */
+    margin-right: auto; /* Center the container horizontally */
+}
+	    
     </style>
 
 <body>
