@@ -3,209 +3,130 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TriLingo-Tots</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #f4f4f4;
-            margin: 0;
-            padding: 0;
-        }
-        .container {
-            max-width: 600px;
-            margin: 0 auto;
-            text-align: center;
-            padding-top: 20px;
-        }
-        h1 {
-            color: #D20062;
-        }
-        #uploadBox {
-            width: 80%;
-            height: 300px;
-            margin: 0 auto;
-            border: 2px dashed #ccc;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            margin-bottom: 20px;
-            position: relative;
-        }
-        #capturedImage {
-            max-width: 100%;
-            max-height: 100%;
-            display: none;
-        }
-        #cameraButton {
-            position: absolute;
-            bottom: 20px;
-            right: 20px;
-            background-color: #D20062;
-            color: #fff;
-            border: none;
-            padding: 10px 20px;
-            font-size: 16px;
-            cursor: pointer;
-            border-radius: 50%;
-        }
-        .result {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-        }
-        .result-item {
-            margin-bottom: 10px;
-        }
-    </style>
+    <title>Image Recognition</title>
+    <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-<div class="container">
-    <h1>TriLingo-Tots</h1>
-    <div id="uploadBox">
-        <img id="capturedImage" src="">
-        <button id="cameraButton">&#128247;</button>
+    <div class="container">
+        <div class="box">
+            <img id="capturedImage" src="" alt="Captured Image">
+        </div>
+        <button id="cameraButton" onclick="captureImage()">Capture Image</button>
+        <div class="result">
+            <div id="english"></div>
+            <div id="malay"></div>
+            <div id="chinese"></div>
+        </div>
     </div>
-    <div class="result">
-        <div class="result-item" id="englishResult"></div>
-        <div class="result-item" id="malayResult"></div>
-        <div class="result-item" id="chineseResult"></div>
-    </div>
-</div>
+    <script src="script.js">
 
-<script>
-    const cameraButton = document.getElementById('cameraButton');
-    const capturedImage = document.getElementById('capturedImage');
-    const englishResult = document.getElementById('englishResult');
-    const malayResult = document.getElementById('malayResult');
-    const chineseResult = document.getElementById('chineseResult');
+        const cameraButton = document.getElementById('cameraButton');
+const capturedImage = document.getElementById('capturedImage');
+const englishResult = document.getElementById('english');
+const malayResult = document.getElementById('malay');
+const chineseResult = document.getElementById('chinese');
 
-    cameraButton.addEventListener('click', async () => {
-        try {
-            const imageFile = await captureImage();
-            showCapturedImage(imageFile);
-            const recognitionResult = await recognizeImage(imageFile);
-            displayResults(recognitionResult);
-        } catch (error) {
-            console.error('Error:', error);
-        }
-    });
+cameraButton.addEventListener('click', async () => {
+    // Trigger mobile camera function
+    const imageData = await capturePhoto();
 
-    function captureImage() {
-        return new Promise((resolve, reject) => {
-            const input = document.createElement('input');
-            input.type = 'file';
-            input.accept = 'image/*';
-            input.capture = 'environment';
-            input.onchange = (event) => {
-                const file = event.target.files[0];
-                if (file) {
-                    resolve(file);
-                } else {
-                    reject('No image selected');
-                }
-            };
-            input.click();
-        });
-    }
+    // Show captured image
+    capturedImage.src = imageData;
 
-    function showCapturedImage(file) {
-        const reader = new FileReader();
-        reader.onload = () => {
-            capturedImage.src = reader.result;
-            capturedImage.style.display = 'block';
-        };
-        reader.readAsDataURL(file);
-    }
+    // Send image to Google Cloud Vision API for object recognition
+    const object = await recognizeObject(imageData);
 
-    async function recognizeImage(imageFile) {
-        const base64data = await toBase64(imageFile);
-        const response = await fetch('https://vision.googleapis.com/v1/images:annotate?key=AIzaSyCzicyAtpPgLWc6OeZ1AfodA1x4A2LlqY4', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({
-                "requests": [
-                    {
-                        "image": {
-                            "content": base64data
-                        },
-                        "features": [
-                            {
-                                "type": "LABEL_DETECTION"
-                            }
-                        ]
-                    }
-                ]
-            }),
-        });
+    // Translate object name to Malay
+    const malayTranslation = await translateText(object, 'en', 'ms');
 
-        if (!response.ok) {
-            throw new Error('Failed to recognize image');
-        }
+    // Translate object name to Chinese
+    const chineseTranslation = await translateText(object, 'en', 'zh');
 
-        const data = await response.json();
-        if (data.responses && data.responses[0] && data.responses[0].labelAnnotations && data.responses[0].labelAnnotations.length > 0) {
-            return data.responses[0].labelAnnotations[0].description;
-        } else {
-            throw new Error('No object recognized');
-        }
-    }
+    // Display results
+    englishResult.innerText = object;
+    malayResult.innerText = malayTranslation;
+    chineseResult.innerText = chineseTranslation.text;
 
-    function toBase64(file) {
-        return new Promise((resolve, reject) => {
-            const reader = new FileReader();
-            reader.readAsDataURL(file);
-            reader.onload = () => resolve(reader.result.split(',')[1]);
-            reader.onerror = (error) => reject(error);
-        });
-    }
+    // Play audio for Chinese translation
+    playAudio(chineseTranslation.audioUrl);
+});
 
-    async function translateText(text, sourceLanguage, targetLanguage) {
-        const response = await fetch(`https://translation.googleapis.com/language/translate/v2?key=AIzaSyClrPxLer-VRuWIwtp_9v0xwCViUve5HMc&q=${encodeURIComponent(text)}&source=${sourceLanguage}&target=${targetLanguage}&format=text&model=base`, {
-            method: 'POST'
-        });
-        const data = await response.json();
-        return data.data.translations[0].translatedText;
-    }
+async function capturePhoto() {
+    // Code to capture photo from mobile camera
+    // Replace this with your actual implementation
+    return 'example.jpg';
+}
 
-    async function displayResults(englishText) {
-        englishResult.textContent = englishText;
-        const malayText = await translateText(englishText, 'en', 'ms');
-        malayResult.textContent = malayText;
-        const chineseText = await translateText(englishText, 'en', 'zh-CN');
-        chineseResult.textContent = chineseText;
-        await speakText(englishText, 'en');
-        await speakText(malayText, 'ms');
-        await speakText(chineseText, 'zh-CN');
-    }
+async function recognizeObject(imageData) {
+    // Code to send image data to Google Cloud Vision API
+    // Replace this with your actual implementation
+    // Example: Use fetch or Axios to send a POST request to the Cloud Vision API
+    // and extract the recognized object from the response
+    return 'example_object';
+}
 
-    async function speakText(text, languageCode) {
-        const audioUrl = await fetch(`https://texttospeech.googleapis.com/v1/text:synthesize?key=AIzaSyDQUaEzdQy4i-5thYcP4OA5rzMfMYc5BMM`, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({
-                "input": {
-                    "text": text
-                },
-                "voice": {
-                    "languageCode": languageCode,
-                    "ssmlGender": "NEUTRAL"
-                },
-                "audioConfig": {
-                    "audioEncoding": "MP3"
-                }
-            }),
-        });
-        const audioData = await audioUrl.json();
-        const audio = new Audio(audioData.audioContent);
-        audio.play();
-    }
-</script>
+async function translateText(text, sourceLang, targetLang) {
+    // Code to translate text using Google Cloud Translation API
+    // Replace this with your actual implementation
+    // Example: Use fetch or Axios to send a POST request to the Translation API
+    // and extract the translated text from the response
+    return {
+        text: `Translated ${text} to ${targetLang}`,
+        audioUrl: 'example_audio_url'
+    };
+}
+
+function playAudio(audioUrl) {
+    // Code to play audio
+    // Replace this with your actual implementation
+    // Example: Create an <audio> element and set its src attribute to the audioUrl
+    // then call the play() method
+}
+
+        
+    </script>
 </body>
 </html>
+
+body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+}
+
+.container {
+    text-align: center;
+}
+
+.box {
+    width: 200px;
+    height: 200px;
+    border: 1px solid #000;
+    margin: 20px auto;
+    overflow: hidden;
+}
+
+#capturedImage {
+    max-width: 100%;
+}
+
+.result {
+    display: flex;
+    justify-content: space-around;
+}
+
+#english, #malay, #chinese {
+    width: 30%;
+    padding: 10px;
+    border: 1px solid #000;
+    margin-top: 10px;
+}
+
+
+
+
 
 
 
