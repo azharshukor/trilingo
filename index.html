@@ -156,10 +156,7 @@
         <img id="uploadedImage" src="" style="display: none;">
     </div>
     <div class="action-button-container">
-        <button id="actionButton">On Camera</button>
-    </div>
-    <div class="capture-button-container" style="display: none;">
-        <button id="captureButton">Capture</button>
+        <button id="onCameraButton">On Camera</button>
     </div>
     <br>
     <div id="result" class="result-columns"></div>
@@ -171,47 +168,50 @@
 </div>
 
 <script>
-    function takePhotoFromCamera() {
-    navigator.mediaDevices.getUserMedia({ video: { facingMode: 'environment' } })
-        .then(function(stream) {
-            var videoElement = document.createElement('video');
-            videoElement.srcObject = stream;
-            videoElement.play();
-            
-            // Display the video element on the page, allowing the user to see what the camera sees
-            document.body.appendChild(videoElement);
-            
-            // Create a canvas element to draw the captured image
-            var canvas = document.createElement('canvas');
-            var context = canvas.getContext('2d');
-
-            // Capture image from video stream when the user clicks a button
-            document.getElementById('captureButton').addEventListener('click', function() {
-                canvas.width = videoElement.videoWidth;
-                canvas.height = videoElement.videoHeight;
-                context.drawImage(videoElement, 0, 0, canvas.width, canvas.height);
-                
-                // Convert the captured image to a data URL
-                var imgUrl = canvas.toDataURL('image/jpeg');
-                
-                // Display the captured image
-                var imgElement = document.createElement('img');
-                imgElement.src = imgUrl;
-                document.body.appendChild(imgElement);
-                
-                // Stop video stream and remove the video element
-                stream.getTracks().forEach(function(track) {
-                    track.stop();
-                });
-                videoElement.pause();
-                videoElement.srcObject = null;
-                videoElement.remove();
-            });
-        })
-        .catch(function(err) {
-            console.error('Error accessing camera:', err);
+    document.getElementById('onCameraButton').addEventListener('click', function() {
+            takePhotoFromCamera();
         });
-}
+
+        function takePhotoFromCamera() {
+            navigator.mediaDevices.getUserMedia({ video: { facingMode: 'environment' } })
+                .then(function(stream) {
+                    var videoElement = document.createElement('video');
+                    videoElement.srcObject = stream;
+                    videoElement.play();
+
+                    document.body.appendChild(videoElement);
+
+                    var canvas = document.createElement('canvas');
+                    var context = canvas.getContext('2d');
+
+                    var captureButton = document.createElement('button');
+                    captureButton.textContent = 'Capture';
+                    document.body.appendChild(captureButton);
+
+                    captureButton.addEventListener('click', function() {
+                        canvas.width = videoElement.videoWidth;
+                        canvas.height = videoElement.videoHeight;
+                        context.drawImage(videoElement, 0, 0, canvas.width, canvas.height);
+                        
+                        var imgUrl = canvas.toDataURL('image/jpeg');
+
+                        var capturedImage = document.getElementById('capturedImage');
+                        capturedImage.src = imgUrl;
+                        capturedImage.style.display = 'block';
+                        
+                        stream.getTracks().forEach(function(track) {
+                            track.stop();
+                        });
+                        videoElement.pause();
+                        videoElement.srcObject = null;
+                        videoElement.remove();
+                        captureButton.remove();
+                    });
+                })
+                .catch(function(err) {
+                    console.error('Error accessing camera:', err);
+                });
+        }
 
     function recognizeImage(imgUrl) {
         fetch('https://vision.googleapis.com/v1/images:annotate?key=AIzaSyClrPxLer-VRuWIwtp_9v0xwCViUve5HMc', {
