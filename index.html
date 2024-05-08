@@ -173,6 +173,11 @@
     TriLingo Tots is in the developmental phase.<br>Please share your thoughts with us at trilingotots@gmail.com.
 </div>
 
+<div class="sent-photo-section">
+    <h2>Photo Sent to Google:</h2>
+    <img id="sentPhoto" src="" alt="Photo Sent to Google">
+</div>
+
 <script>
     document.getElementById('captureInput').addEventListener('change', function(event) {
     var file = event.target.files[0];
@@ -187,6 +192,10 @@
 function recognizeImage(imageFile) {
     var formData = new FormData();
     formData.append('image', imageFile);
+
+    // Display the sent photo
+    var imgUrl = URL.createObjectURL(imageFile);
+    document.getElementById('sentPhoto').src = imgUrl;
 
     fetch('https://vision.googleapis.com/v1/images:annotate?key=AIzaSyClrPxLer-VRuWIwtp_9v0xwCViUve5HMc', {
         method: 'POST',
