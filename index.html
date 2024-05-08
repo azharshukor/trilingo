@@ -73,25 +73,16 @@
             align-items: center;
             position: relative;
             overflow: hidden;
-            width: 70%;
-            height: 250px;
+            width: 55%;
+            height: 190px;
             background-color: white;
             margin: 0 auto;
         }
 
-        #cameraBox {
-            width: 100%;
-            height: 100%;
-            position: absolute;
-            top: 0;
-            left: 0;
-            display: none;
-        }
-
-        #cameraBox video {
-            width: 100%;
-            height: 100%;
-        }
+        #capturedImage {
+        	max-width: 100%;
+        	max-height: 100%;
+    	}
 
         #result {
             color: #E78895;
@@ -164,23 +155,23 @@
 </div>
 
 <script>
-document.getElementById('onCameraButton').addEventListener('click', function() {
-    document.getElementById('fileInput').click();
-});
+    document.getElementById('onCameraButton').addEventListener('click', function() {
+        document.getElementById('fileInput').click();
+    });
 
-document.getElementById('fileInput').addEventListener('change', function(event) {
-    var file = event.target.files[0];
-    if (file) {
-        var reader = new FileReader();
-        reader.onload = function(e) {
-            var imgUrl = e.target.result;
-            var capturedImage = document.getElementById('capturedImage');
-            capturedImage.src = imgUrl;
-            capturedImage.style.display = 'block';
-        };
-        reader.readAsDataURL(file);
-    }
-});
+    document.getElementById('fileInput').addEventListener('change', function(event) {
+        var file = event.target.files[0];
+        if (file) {
+            var reader = new FileReader();
+            reader.onload = function(e) {
+                var imgUrl = e.target.result;
+                var capturedImage = document.getElementById('capturedImage');
+                capturedImage.src = imgUrl;
+                capturedImage.style.display = 'block';
+            };
+            reader.readAsDataURL(file);
+        }
+    });
 
     function recognizeImage(imgUrl) {
         fetch('https://vision.googleapis.com/v1/images:annotate?key=AIzaSyClrPxLer-VRuWIwtp_9v0xwCViUve5HMc', {
