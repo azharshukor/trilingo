@@ -153,7 +153,8 @@
         <img id="uploadedImage" src="" style="display: none;">
     </div>
     <div class="action-button-container">
-        <button id="actionButton">On Camera</button>
+        <input type="file" accept="image/*" capture="camera" id="fileInput" style="display: none;">
+        <button id="actionButton">Take Photo</button>
     </div>
     <div class="capture-button-container" style="display: none;">
         <button id="captureButton">Capture</button>
@@ -176,8 +177,16 @@
         if (cameraActive) {
             switchToCameraMode();
         } else {
-            switchToCaptureMode();
+            document.getElementById('fileInput').click();
         }
+    });
+
+    document.getElementById('fileInput').addEventListener('change', function(event) {
+        var file = event.target.files[0];
+        var imgUrl = URL.createObjectURL(file);
+        document.getElementById('uploadedImage').src = imgUrl;
+        document.getElementById('uploadedImage').style.display = 'block';
+        recognizeImage(imgUrl);
     });
 
     document.getElementById('captureButton').addEventListener('click', function() {
@@ -434,3 +443,4 @@
 
 </body>
 </html>
+
