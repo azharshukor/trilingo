@@ -32,7 +32,7 @@
         }
 
         h3 {
-            margin-bottom: 10px; /* Adjusted margin */
+            margin-bottom: 20px; /* Adjusted margin */
             margin-left: 40px;
             margin-right: 40px;
             line-height: 1.5;
@@ -48,6 +48,7 @@
             font-size: 8pt;
             text-align: center;
 	    line-height: 1.5;
+		margin-top: 20px;
         }
 
         button {
@@ -97,10 +98,11 @@
 
 	.result-column {
     		flex: 1 1 auto; /* Allow flex items to grow and shrink equally */
-    		max-width: 30%; /* Adjust maximum width to your preference */
-    		margin: 0 20px; /* Shorthand for margin */
-    		padding: 0;
-    		margin-bottom: 20px;
+   		 margin: 0 5px; /* Adjust margin to create gaps between columns */
+  		  padding: 0;
+ 		   margin-bottom: 20px;
+ 	  	 max-width: calc((100% - 40px - 20px) / 3); /* Adjust maximum width considering gaps */
+ 		  box-sizing: border-box; /* Include padding and border in the element's total width */
 	}
 
 	.result-heading {
