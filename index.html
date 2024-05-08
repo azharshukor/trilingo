@@ -97,7 +97,7 @@
 	}
 
 .result-column {
-    flex: 1 0 0; /* Equal width for all columns */
+    flex: 1;
     margin: 0 15px;
     padding: 0;
     margin-bottom: 20px;
@@ -108,7 +108,7 @@
     align-items: center;
 }
 
-.result-column::after {
+.result-column:not(:last-child)::after {
     content: '';
     position: absolute;
     top: 0;
