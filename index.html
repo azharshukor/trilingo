@@ -149,15 +149,13 @@
     <h1>TriLingo Tots</h1>
     <h3>Take a picture to find out what it is called in English, Malay, and Chinese!</h3>
     <div id="uploadBox">
-        <div id="cameraBox"></div>
+        <input type="file" accept="image/*" capture="environment" id="captureInput" style="display: none;">
         <img id="uploadedImage" src="" style="display: none;">
     </div>
     <div class="action-button-container">
-        <input type="file" accept="image/*" capture="camera" id="fileInput" style="display: none;">
-        <button id="actionButton">Take Photo</button>
-    </div>
-    <div class="capture-button-container" style="display: none;">
-        <button id="captureButton">Capture</button>
+        <button id="actionButton">Take a Picture</button>
+        <input type="file" accept="image/*" id="uploadInput" style="display: none;">
+        <label for="uploadInput">Upload Image</label>
     </div>
     <br>
     <div id="result" class="result-columns"></div>
