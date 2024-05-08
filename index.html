@@ -179,76 +179,51 @@
 </div>
 
 <script>
+
     document.getElementById('captureInput').addEventListener('change', function(event) {
     var file = event.target.files[0];
     if (file) {
         var imgUrl = URL.createObjectURL(file);
         document.getElementById('capturedImage').src = imgUrl;
         document.getElementById('capturedImage').style.display = 'block';
-        recognizeImage(file);
+        recognizeImage(file); // Passing the file object to the recognizeImage function
     }
 });
 
-function recognizeImage(imgUrl) {
-        fetch('https://vision.googleapis.com/v1/images:annotate?key=AIzaSyClrPxLer-VRuWIwtp_9v0xwCViUve5HMc', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({
-                "requests": [
-                    {
-                        "image": {
-                            "content": imgUrl.split(",")[1] // Extracting base64 data
-                        },
-                        "features": [
-                            {
-                                "type": "LABEL_DETECTION"
-                            }
-                        ]
-                    }
-                ]
-            }),
-        })
-        .then(response => {
-            if (!response.ok) {
-                throw new Error('Network response was not ok');
-            }
-            return response.json();
-        })
-        .then(data => {
-            if (data.responses && data.responses[0] && data.responses[0].labelAnnotations && data.responses[0].labelAnnotations.length > 0) {
-                const labels = data.responses[0].labelAnnotations.map(annotation => annotation.description);
-                const recognitionResult = {
-                    English: labels[0], // Assuming the most prominent object is the first label
-                    Malay: "", // Placeholder for Malay translation
-                    Chinese: "" // Placeholder for Chinese translation
-                };
-                translateText(recognitionResult.English, 'en', 'ms').then(malayText => {
-                    recognitionResult.Malay = malayText;
-                    return translateText(recognitionResult.English, 'en', 'zh-CN');
-                }).then(chineseText => {
-                    recognitionResult.Chinese = chineseText;
-                    return getPinyin(chineseText, 'zh-CN');
-                }).then(pinyin => {
-                    recognitionResult["Pinyin Tones"] = pinyin;
-                    displayResult(recognitionResult);
-                }).catch(error => {
-                    console.error('Error translating text:', error);
-                    // If translation fails, display English result only
-                    displayResult(recognitionResult);
-                });
-            } else {
-                const recognitionResult = {
-                    English: "Try again",
-                    Malay: "Cuba lagi",
-                    Chinese: "再试一次"
-                };
-                displayResult(recognitionResult);
-            }
-        })
-        .catch(error => {
-            console.error('Error recognizing image:', error);
+function recognizeImage(imgData) { // Changed parameter name to imgData
+    fetch('https://vision.googleapis.com/v1/images:annotate?key=AIzaSyClrPxLer-VRuWIwtp_9v0xwCViUve5HMc', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+            "requests": [
+                {
+                    "image": {
+                        "content": imgData.split(",")[1] // Extracting base64 data
+                    },
+                    "features": [
+                        {
+                            "type": "LABEL_DETECTION"
+                        }
+                    ]
+                }
+            ]
+        }),
+    })
+    .then(response => {
+        if (!response.ok) {
+            throw new Error('Error in fetching data. Status Code: ' + response.status);
+        }
+        return response.json();
+    })
+    .then(data => {
+        // Rest of your code for processing recognition result
+    })
+    .catch(error => {
+        console.error('Error in recognizing image:', error);
+    });
+}        console.error('Error recognizing image:', error);
         });
     }
 
