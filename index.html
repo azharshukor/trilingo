@@ -193,9 +193,32 @@ function recognizeImage(imageFile) {
     var formData = new FormData();
     formData.append('image', imageFile);
 
-    fetch('https://vision.googleapis.com/v1/images:annotate?key=AIzaSyCzicyAtpPgLWc6OeZ1AfodA1x4A2LlqY4', {
+    // Specify features for image annotation
+    var features = [
+        {
+            type: 'LABEL_DETECTION', // Perform label detection
+            maxResults: 10 // Maximum number of labels to return
+        }
+        // Add more feature specifications if needed
+    ];
+
+    var requestData = {
+        requests: [
+            {
+                image: {
+                    content: imageFile
+                },
+                features: features
+            }
+        ]
+    };
+
+    fetch('https://vision.googleapis.com/v1/images:annotate?key=YOUR_API_KEY', {
         method: 'POST',
-        body: formData,
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(requestData)
     })
     .then(response => {
         if (!response.ok) {
