@@ -187,7 +187,7 @@
         var reader = new FileReader();
         reader.onloadend = function() {
             var base64data = reader.result.split(',')[1]; // Extract base64 data
-            fetch('https://vision.googleapis.com/v1/images:annotate?key=YOUR_API_KEY', {
+            fetch('https://vision.googleapis.com/v1/images:annotate?key=AIzaSyCzicyAtpPgLWc6OeZ1AfodA1x4A2LlqY4', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
