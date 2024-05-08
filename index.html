@@ -104,7 +104,9 @@
     max-width: calc((100% - 40px - 20px) / 3);
     box-sizing: border-box;
     position: relative;
-    height: 200px; /* Ensure all columns have the same height */
+    display: flex; /* Center content horizontally */
+    justify-content: center; /* Center content horizontally */
+    align-items: center; /* Center content vertically */
 }
 
 .result-column:not(:last-child)::after {
