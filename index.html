@@ -96,53 +96,40 @@
     		background-color: white; /* Set background color to white */
 	}
 
-.result-column {
-    flex: 1;
-    margin: 0 15px;
-    padding: 0;
-    margin-bottom: 20px;
-    box-sizing: border-box;
-    position: relative;
+#result {
+    color: #E78895;
     display: flex;
-    flex-direction: column;
-    align-items: center;
+    justify-content: center; /* Center the content horizontally */
+    background-color: #FFF7F1;
 }
 
-.result-column:not(:last-child)::after {
-    content: '';
-    position: absolute;
-    top: 0;
-    bottom: 0;
-    right: -5px;
-    width: 1px;
-    background-color: #D20062;
+.result-column {
+    flex: 1 1 auto; /* Allow flex items to grow and shrink equally */
+    margin: 0 5px; /* Adjust margin to create gaps between columns */
+    padding: 0;
+    margin-bottom: 20px;
+    max-width: calc((100% - 40px - 20px) / 3); /* Adjust maximum width considering gaps */
+    box-sizing: border-box; /* Include padding and border in the element's total width */
 }
 
 .result-heading {
     font-family: 'Poetsen One';
-    font-size: 14px;
+    font-size: 16px;
     font-weight: 100;
+    margin: 0;
+    padding: 0;
     color: #D20062;
     line-height: 1;
-    margin-top: 20px;
-    margin-bottom: 10px;
+    margin-top: 40px;
 }
 
 .result-text {
     font-family: 'Arial';
-    font-size: 18px;
+    font-size: 22px;
     color: black;
     font-weight: 600;
     line-height: 1.5;
     cursor: pointer;
-    text-align: center;
-}
-
-.results-container {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    max-width: 100%; /* Ensure results container takes full width */
 }
 
         .action-button-container {
