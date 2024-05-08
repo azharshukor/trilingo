@@ -11,122 +11,149 @@
         <div class="box">
             <img id="capturedImage" src="" alt="Captured Image">
         </div>
-        <button id="cameraButton" onclick="captureImage()">Capture Image</button>
+        <button id="cameraButton">Capture Image</button>
         <div class="result">
             <div id="english"></div>
             <div id="malay"></div>
             <div id="chinese"></div>
         </div>
+        <button id="speakButton">Speak Translation</button>
     </div>
-    <script src="script.js">
-
-        const cameraButton = document.getElementById('cameraButton');
-const capturedImage = document.getElementById('capturedImage');
-const englishResult = document.getElementById('english');
-const malayResult = document.getElementById('malay');
-const chineseResult = document.getElementById('chinese');
-
-cameraButton.addEventListener('click', async () => {
-    // Trigger mobile camera function
-    const imageData = await capturePhoto();
-
-    // Show captured image
-    capturedImage.src = imageData;
-
-    // Send image to Google Cloud Vision API for object recognition
-    const object = await recognizeObject(imageData);
-
-    // Translate object name to Malay
-    const malayTranslation = await translateText(object, 'en', 'ms');
-
-    // Translate object name to Chinese
-    const chineseTranslation = await translateText(object, 'en', 'zh');
-
-    // Display results
-    englishResult.innerText = object;
-    malayResult.innerText = malayTranslation;
-    chineseResult.innerText = chineseTranslation.text;
-
-    // Play audio for Chinese translation
-    playAudio(chineseTranslation.audioUrl);
-});
-
-async function capturePhoto() {
-    // Code to capture photo from mobile camera
-    // Replace this with your actual implementation
-    return 'example.jpg';
-}
-
-async function recognizeObject(imageData) {
-    // Code to send image data to Google Cloud Vision API
-    // Replace this with your actual implementation
-    // Example: Use fetch or Axios to send a POST request to the Cloud Vision API
-    // and extract the recognized object from the response
-    return 'example_object';
-}
-
-async function translateText(text, sourceLang, targetLang) {
-    // Code to translate text using Google Cloud Translation API
-    // Replace this with your actual implementation
-    // Example: Use fetch or Axios to send a POST request to the Translation API
-    // and extract the translated text from the response
-    return {
-        text: `Translated ${text} to ${targetLang}`,
-        audioUrl: 'example_audio_url'
-    };
-}
-
-function playAudio(audioUrl) {
-    // Code to play audio
-    // Replace this with your actual implementation
-    // Example: Create an <audio> element and set its src attribute to the audioUrl
-    // then call the play() method
-}
-
-        
-    </script>
+    <script src="script.js"></script>
 </body>
 </html>
 
-body {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
-    margin: 0;
-}
+<script>
+    const cameraButton = document.getElementById('cameraButton');
+    const capturedImage = document.getElementById('capturedImage');
+    const englishResult = document.getElementById('english');
+    const malayResult = document.getElementById('malay');
+    const chineseResult = document.getElementById('chinese');
+    const speakButton = document.getElementById('speakButton');
 
-.container {
-    text-align: center;
-}
+    cameraButton.addEventListener('click', async () => {
+        // Your implementation to capture photo from camera or device
+        // For simplicity, I'll assume this function returns a base64-encoded image data
+        const imageData = await capturePhoto();
 
-.box {
-    width: 200px;
-    height: 200px;
-    border: 1px solid #000;
-    margin: 20px auto;
-    overflow: hidden;
-}
+        // Show captured image
+        capturedImage.src = 'data:image/jpeg;base64,' + imageData;
 
-#capturedImage {
-    max-width: 100%;
-}
+        // Replace 'YOUR_VISION_API_KEY' with your actual Vision API key
+        const object = await recognizeObject(imageData);
 
-.result {
-    display: flex;
-    justify-content: space-around;
-}
+        // Replace 'YOUR_TRANSLATION_API_KEY' with your actual Translation API key
+        const malayTranslation = await translateText(object, 'en', 'ms');
+        const chineseTranslation = await translateText(object, 'en', 'zh');
 
-#english, #malay, #chinese {
-    width: 30%;
-    padding: 10px;
-    border: 1px solid #000;
-    margin-top: 10px;
-}
+        // Display results
+        englishResult.innerText = object;
+        malayResult.innerText = malayTranslation;
+        chineseResult.innerText = chineseTranslation;
 
+        // Play audio for Chinese translation
+        // Assuming chineseTranslation.audioUrl contains the audio URL
+        playAudio(chineseTranslation.audioUrl);
+    });
 
+    speakButton.addEventListener('click', async () => {
+        // Get translated text
+        const chineseTranslation = chineseResult.innerText;
 
+        // Call the function to speak the translated text
+        speakText(chineseTranslation);
+    });
 
+    async function speakText(text) {
+        // Replace 'YOUR_TEXT_TO_SPEECH_API_KEY' with your actual API key
+        const apiKey = 'AIzaSyDQUaEzdQy4i-5thYcP4OA5rzMfMYc5BMM';
+        const url = `https://texttospeech.googleapis.com/v1/text:synthesize?key=${apiKey}`;
 
+        const requestBody = {
+            input: { text: text },
+            voice: { languageCode: 'zh-CN', ssmlGender: 'FEMALE' }, // Example voice parameters, adjust as needed
+            audioConfig: { audioEncoding: 'MP3' } // Example audio encoding, adjust as needed
+        };
 
+        try {
+            const response = await fetch(url, {
+                method: 'POST',
+                body: JSON.stringify(requestBody),
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+            });
+            const data = await response.json();
 
+            // Assuming data.audioContent contains the audio data
+            const audioData = data.audioContent;
+            // Your implementation to play audio
+            playAudio(audioData);
+        } catch (error) {
+            console.error('Error synthesizing speech:', error);
+        }
+    }
+
+    // Function to play audio from binary data
+    function playAudio(audioData) {
+        // Your implementation to play audio
+    }
+
+    // Function to translate text from a source language to a target language
+    async function translateText(text, sourceLang, targetLang) {
+        const apiKey = 'AIzaSyClrPxLer-VRuWIwtp_9v0xwCViUve5HMc'; // Replace with your Translation API key
+        const url = `https://translation.googleapis.com/language/translate/v2?key=${apiKey}&q=${encodeURIComponent(text)}&source=${sourceLang}&target=${targetLang}`;
+
+        try {
+            const response = await fetch(url);
+            const data = await response.json();
+            return data.data.translations[0].translatedText;
+        } catch (error) {
+            console.error('Error translating text:', error);
+            return null;
+        }
+    }
+
+    // Function to recognize objects in an image data
+    async function recognizeObject(imageData) {
+        const apiKey = 'AIzaSyCzicyAtpPgLWc6OeZ1AfodA1x4A2LlqY4'; // Replace with your Vision API key
+        const url = `https://vision.googleapis.com/v1/images:annotate?key=${apiKey}`;
+        const requestBody = {
+            requests: [
+                {
+                    image: {
+                        content: imageData,
+                    },
+                    features: [
+                        {
+                            type: 'OBJECT_LOCALIZATION',
+                        },
+                    ],
+                },
+            ],
+        };
+
+        try {
+            const response = await fetch(url, {
+                method: 'POST',
+                body: JSON.stringify(requestBody),
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+            });
+            const data = await response.json();
+            const objects = data.responses[0].localizedObjectAnnotations.map(obj => obj.name);
+            return objects;
+        } catch (error) {
+            console.error('Error recognizing objects:', error);
+            return [];
+        }
+    }
+
+    // Function to capture photo from a camera or device
+    async function capturePhoto() {
+        // Your implementation to capture photo from camera or device
+        // For simplicity, I'll assume this function returns a base64-encoded image data
+        return 'BASE64_IMAGE_DATA';
+    }
+</script>
