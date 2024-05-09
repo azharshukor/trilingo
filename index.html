@@ -463,56 +463,6 @@
         });
     }
 
-	// Function to display "Checking image..." message
-    function displayLoadingMessage() {
-        clearResults(); // Clear previous results
-        var resultDiv = document.getElementById('result');
-        resultDiv.textContent = "Checking image...";
-    }
-
-    // Modify recognizeImage function to display loading message
-    function recognizeImage(imgUrl) {
-        displayLoadingMessage(); // Display "Checking image..." message
-        fetch('https://vision.googleapis.com/v1/images:annotate?key=AIzaSyClrPxLer-VRuWIwtp_9v0xwCViUve5HMc', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({
-                "requests": [
-                    {
-                        "image": {
-                            "content": imgUrl.split(",")[1] // Extracting base64 data
-                        },
-                        "features": [
-                            {
-                                "type": "LABEL_DETECTION"
-                            }
-                        ]
-                    }
-                ]
-            }),
-        })
-        .then(response => {
-            if (!response.ok) {
-                throw new Error('Network response was not ok');
-            }
-            return response.json();
-        })
-        .then(data => {
-            // Rest of your code to process the response and display results
-        })
-        .catch(error => {
-            console.error('Error recognizing image:', error);
-        });
-    }
-
-    // Function to clear previous results
-    function clearResults() {
-        var resultDiv = document.getElementById('result');
-        resultDiv.innerHTML = '';
-
-    }
 	
 </script>
 
