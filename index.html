@@ -153,7 +153,7 @@
     </div>
     <div class="action-button-container">
         <input type="file" accept="image/*" capture="environment" id="fileInput" style="display: none;">
-        <button id="onCameraButton">On Camera</button>
+        <button id="onCameraButton">Take a photo</button>
     </div>
     <div id="result" class="result-columns"></div>
 </div>
@@ -377,6 +377,31 @@
         }
     }
 
+    document.getElementById('fileInput').addEventListener('change', function(event) {
+    // Display loading message
+    displayLoadingMessage();
+
+    var file = event.target.files[0];
+    if (file) {
+        var reader = new FileReader();
+        reader.onload = function(e) {
+            var imgUrl = e.target.result;
+            var capturedImage = document.getElementById('capturedImage');
+            capturedImage.src = imgUrl;
+            capturedImage.style.display = 'block';
+
+            // Call the recognizeImage function with the image URL
+            recognizeImage(imgUrl);
+        };
+        reader.readAsDataURL(file);
+    }
+});
+
+function displayLoadingMessage() {
+    var resultDiv = document.getElementById('result');
+    resultDiv.innerHTML = '<p>Loading...</p>';
+}
+	
     function clearResults() {
         var resultDiv = document.getElementById('result');
         resultDiv.innerHTML = '';
