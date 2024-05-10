@@ -16,7 +16,9 @@
     </div>
     <div class="action-button-container">
         <input type="file" accept="image/*" capture="environment" id="fileInput" style="display: none;">
-        <button id="onCameraButton">Take a photo</button>
+        
+    <button class="button" role="button" id="onCameraButton">Take a photo</button>    
+        
     </div>
     <div id="result" class="result-columns"></div>
 </div>
@@ -28,25 +30,25 @@
 
 <script>
     document.getElementById('onCameraButton').addEventListener('click', function() {
-        document.getElementById('fileInput').click();
-    });
+            document.getElementById('fileInput').click();
+        });
 
-    document.getElementById('fileInput').addEventListener('change', function(event) {
-        var file = event.target.files[0];
-        if (file) {
-            var reader = new FileReader();
-            reader.onload = function(e) {
-                var imgUrl = e.target.result;
-                var capturedImage = document.getElementById('capturedImage');
-                capturedImage.src = imgUrl;
-            	capturedImage.style.display = 'block';
-            
-            // Call the recognizeImage function with the image URL
-            recognizeImage(imgUrl);
-        };
-        reader.readAsDataURL(file);
-    }
-});
+        document.getElementById('fileInput').addEventListener('change', function(event) {
+            var file = event.target.files[0];
+            if (file) {
+                var reader = new FileReader();
+                reader.onload = function(e) {
+                    var imgUrl = e.target.result;
+                    var capturedImage = document.getElementById('capturedImage');
+                    capturedImage.src = imgUrl;
+                    capturedImage.style.display = 'block';
+
+                    // Call the recognizeImage function with the image URL and column number
+                    recognizeImage(imgUrl, 1); // Assuming default column is 1
+                };
+                reader.readAsDataURL(file);
+            }
+        });
 
     function recognizeImage(imgUrl) {
         fetch('https://vision.googleapis.com/v1/images:annotate?key=AIzaSyClrPxLer-VRuWIwtp_9v0xwCViUve5HMc', {
@@ -144,12 +146,23 @@
     'bottle': 59,
     'shoe': 60,
     'sandals': 61,
-    'car': 62, // Added comma here
+    'car': 62, 
     'bus': 63,
     'motorcycle': 64,
     'van': 65,
     'bicycle': 66,
     'traffic light': 67,
+    'apple': 68,
+    'pear': 69,
+    'pineapple': 70,
+    'strawberry': 71,
+    'grapes': 72,
+    'watermellon': 73,
+    'computer mouse': 74,
+    'mouse': 75,
+    'table': 76,
+    'chair': 77,
+    
 };
 
         // Sort labels based on their priority levels
@@ -174,7 +187,7 @@
                     return translateText(recognitionResult.English, 'en', 'zh-CN');
                 }).then(chineseText => {
                     recognitionResult.Chinese = chineseText;
-                    return getPinyin(chineseText, 'zh-CN');
+                    return getPinyin(chineseText, 'zh-SG');
                 }).then(pinyin => {
                     recognitionResult["Pinyin Tones"] = pinyin;
                     displayResult(recognitionResult);
@@ -232,9 +245,9 @@
 
             // Add event listener to read out the words
             text.addEventListener('click', function() {
-                speakText(this.querySelector('.word').textContent, language === 'Malay' ? 'ms' : 'en-US');
+                speakText(this.querySelector('.word').textContent, language === 'Malay' ? 'ms' : 'en-UK');
                 if (language === 'Chinese' && this.querySelector('.pinyin')) {
-                    speakText(this.querySelector('.pinyin').textContent, 'zh-CN');
+                    speakText(this.querySelector('.pinyin').textContent, 'zh-SG');
                 }
             });
         }
@@ -304,8 +317,8 @@ function displayLoadingMessage() {
                 text: text
             },
             voice: {
-                languageCode: languageCode, // Language code for English (US), Malay, or Chinese
-                ssmlGender: 'MALE' // You can adjust the gender as needed
+                languageCode: languageCode, // Language code for English (UK), Malay, or Chinese
+                ssmlGender: 'FEMALE' // You can adjust the gender as needed
             },
             audioConfig: {
                 audioEncoding: 'MP3' // You can adjust the audio encoding type
