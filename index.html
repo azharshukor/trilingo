@@ -242,14 +242,7 @@
                 columnDiv.appendChild(text);
                 resultDiv.appendChild(columnDiv);
             }
-
-            // Add event listener to read out the words
-            text.addEventListener('click', function() {
-                speakText(this.querySelector('.word').textContent, language === 'Malay' ? 'ms' : 'en-UK');
-                if (language === 'Chinese' && this.querySelector('.pinyin')) {
-                    speakText(this.querySelector('.pinyin').textContent, 'zh-SG');
-                }
-            });
+  
         }
     }
 
@@ -307,62 +300,117 @@ function displayLoadingMessage() {
         }
     }
 
-    function speakText(text, languageCode) {
-        // Google Text-to-Speech API endpoint
-        var ttsEndpoint = 'https://texttospeech.googleapis.com/v1/text:synthesize?key=AIzaSyDQUaEzdQy4i-5thYcP4OA5rzMfMYc5BMM';
+    document.getElementById('result').addEventListener('click', function(event) {
+    var targetElement = event.target;
+    var columnNumber;
+    var word;
 
-        // Request body
-        var requestBody = JSON.stringify({
-            input: {
-                text: text
-            },
-            voice: {
-                languageCode: languageCode, // Language code for English (UK), Malay, or Chinese
-                ssmlGender: 'FEMALE' // You can adjust the gender as needed
-            },
-            audioConfig: {
-                audioEncoding: 'MP3' // You can adjust the audio encoding type
-            }
-        });
-
-        // Fetch request to Google TTS API
-        fetch(ttsEndpoint, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: requestBody
-        })
-        .then(response => {
-            if (!response.ok) {
-                throw new Error('Network response was not ok');
-            }
-            return response.json();
-        })
-        .then(data => {
-            if (data && data.audioContent) {
-                // Decode base64 audio content
-                var audioData = atob(data.audioContent);
-                // Convert audio data to binary format
-                var arrayBuffer = new ArrayBuffer(audioData.length);
-                var uint8Array = new Uint8Array(arrayBuffer);
-                for (var i = 0; i < audioData.length; i++) {
-                    uint8Array[i] = audioData.charCodeAt(i);
+    while (targetElement) {
+        if (targetElement.classList.contains('result-column')) {
+            var heading = targetElement.querySelector('.result-heading');
+            if (heading) {
+                switch (heading.textContent.trim()) {
+                    case 'English:':
+                        columnNumber = 1;
+                        break;
+                    case 'Malay:':
+                        columnNumber = 2;
+                        break;
+                    case 'Chinese:':
+                        columnNumber = 3;
+                        break;
+                    default:
+                        columnNumber = 1; // Default to 1 if heading doesn't match
                 }
-                // Create blob object from binary data
-                var blob = new Blob([arrayBuffer], { type: 'audio/mpeg' });
-
-                // Play the audio
-                var audioElement = new Audio(URL.createObjectURL(blob));
-                audioElement.play();
-            } else {
-                throw new Error('Audio content not found in response');
             }
-        })
-        .catch(error => {
-            console.error('Error fetching audio:', error);
-        });
+            break; // Break out of the loop once columnNumber is found
+        }
+        if (targetElement.classList.contains('word')) {
+            word = targetElement.textContent;
+        }
+        targetElement = targetElement.parentElement; // Move up the DOM tree
     }
+
+    // Check if the clicked element contains a word and columnNumber is defined
+    if (word && columnNumber) {
+        // Now call the speakText function with the clicked word and defined columnNumber
+        speakText(word, columnNumber);
+    }
+});
+
+function speakText(text, columnNumber) {
+    // Define voiceName based on columnNumber
+    var voiceName;
+    switch (columnNumber) {
+        case 1:
+            voiceName = 'en-GB-Standard-B';
+            break;
+        case 2:
+            voiceName = 'ms-MY-Standard-C';
+            break;
+        case 3:
+            voiceName = 'cmn-CN-Standard-A';
+            break;
+        default:
+            voiceName = 'en-GB-Standard-B'; // Default to English if columnNumber is not 1, 2, or 3
+    }
+
+    // Google Text-to-Speech API endpoint
+    var ttsEndpoint = 'https://texttospeech.googleapis.com/v1/text:synthesize?key=AIzaSyDQUaEzdQy4i-5thYcP4OA5rzMfMYc5BMM';
+
+    // Request body
+    var requestBody = JSON.stringify({
+        input: {
+            text: text
+        },
+        voice: {
+            languageCode: 'en-GB', // Default language code for English (UK)
+            name: voiceName, // Voice name based on column number
+            ssmlGender: 'FEMALE' // You can adjust the gender as needed
+        },
+        audioConfig: {
+            audioEncoding: 'MP3' // You can adjust the audio encoding type
+        }
+    });
+
+    // Fetch request to Google TTS API
+    fetch(ttsEndpoint, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: requestBody
+    })
+    .then(response => {
+        if (!response.ok) {
+            throw new Error('Network response was not ok');
+        }
+        return response.json();
+    })
+    .then(data => {
+        if (data && data.audioContent) {
+            // Decode base64 audio content
+            var audioData = atob(data.audioContent);
+            // Convert audio data to binary format
+            var arrayBuffer = new ArrayBuffer(audioData.length);
+            var uint8Array = new Uint8Array(arrayBuffer);
+            for (var i = 0; i < audioData.length; i++) {
+                uint8Array[i] = audioData.charCodeAt(i);
+            }
+            // Create blob object from binary data
+            var blob = new Blob([arrayBuffer], { type: 'audio/mpeg' });
+
+            // Play the audio
+            var audioElement = new Audio(URL.createObjectURL(blob));
+            audioElement.play();
+        } else {
+            throw new Error('Audio content not found in response');
+        }
+    })
+    .catch(error => {
+        console.error('Error fetching audio:', error);
+    });
+}
 
 	
 </script>
