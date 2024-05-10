@@ -182,171 +182,111 @@
                 var imgUrl = e.target.result;
                 capturedImage.src = imgUrl;
                 capturedImage.style.display = 'block';
-            
+
                 // Call the recognizeImage function with the image URL
-                recognizeImage(imgUrl);
+                recognizeImage(imgUrl).then(result => {
+                    displayResult(result);
+                }).catch(error => {
+                    console.error('Error recognizing image:', error);
+                    const recognitionResult = {
+                        English: "Error",
+                        Malay: "Ralat",
+                        Chinese: "错误"
+                    };
+                    displayResult(recognitionResult);
+                }).finally(() => {
+                    document.getElementById('loadingMessage').textContent = ''; // Clear loading message
+                });
             };
             reader.readAsDataURL(file);
         }
     });
 
     function recognizeImage(imgUrl) {
-        fetch('https://vision.googleapis.com/v1/images:annotate?key=AIzaSyClrPxLer-VRuWIwtp_9v0xwCViUve5HMc', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({
-                "requests": [
-                    {
-                        "image": {
-                            "content": imgUrl.split(",")[1] // Extracting base64 data
-                        },
-                        "features": [
-                            {
-                                "type": "LABEL_DETECTION"
-                            }
-                        ]
-                    }
-                ]
-            }),
-        })
-        .then(response => {
-            if (!response.ok) {
-                throw new Error('Network response was not ok');
-            }
-            return response.json();
-        })
-        .then(data => {
-            if (data.responses && data.responses[0] && data.responses[0].labelAnnotations && data.responses[0].labelAnnotations.length > 0) {
-                const labels = data.responses[0].labelAnnotations.map(annotation => annotation.description);
-                
-                // Function to prioritize labels based on simplicity and relevance
-                const prioritizeLabels = (labels) => {
-                    // Define a map of labels and their priority levels (lower is higher priority)
-                    const labelPriorities = {
-    'cat': 1,
-    'dog': 2,
-    'cow': 3,
-    'bird': 4,
-    'horse': 5,
-    'fish': 6,
-    'rabbit': 7,
-    'frog': 8,
-    'turtle': 9,
-    'snake': 10,
-    'lion': 11,
-    'tiger': 12,
-    'elephant': 13,
-    'butterfly': 14,
-    'ant': 15,
-    'spider': 16,
-    'ladybug': 17,
-    'dragonfly': 18,
-    'bee': 19,
-    'cup': 20, 
-    'spoon': 21, 
-    'fork': 22, 
-    'plate': 23, 
-    'bowl': 24, 
-    'chopsticks': 25,
-    'book': 26,
-    'computer': 27,
-    'bag': 28,
-    'pillow': 29,
-    'towel': 30,
-    'shirt': 31, 
-    'pants': 32,
-    'shorts': 33,
-    'skirt': 34,
-    'clothes': 35,
-    'toilet': 36,
-    'toothbrush': 37,
-    'toothpaste': 38,
-    'cloud': 39,
-    'sun': 40,
-    'playground': 41, 
-    'star': 42,
-    'sea': 43,
-    'sand': 44,
-    'tree': 45,
-    'leaf': 46,
-    'grass': 47,
-    'hand': 48,
-    'leg': 49,
-    'eye': 50,
-    'nose': 51,
-    'mouth': 52,
-    'teeth': 53,
-    'ears': 54,
-    'ball': 55,
-    'teddy bear': 56,
-    'television': 57,
-    'mobile phone': 58,
-    'bottle': 59,
-    'shoe': 60,
-    'sandals': 61,
-    'car': 62, // Added comma here
-    'bus': 63,
-    'motorcycle': 64,
-    'van': 65,
-    'bicycle': 66,
-    'traffic light': 67,
-                        // Add other labels here
+        return new Promise((resolve, reject) => {
+            fetch('https://vision.googleapis.com/v1/images:annotate?key=AIzaSyClrPxLer-VRuWIwtp_9v0xwCViUve5HMc', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    "requests": [
+                        {
+                            "image": {
+                                "content": imgUrl.split(",")[1] // Extracting base64 data
+                            },
+                            "features": [
+                                {
+                                    "type": "LABEL_DETECTION"
+                                }
+                            ]
+                        }
+                    ]
+                }),
+            })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                return response.json();
+            })
+            .then(data => {
+                if (data.responses && data.responses[0] && data.responses[0].labelAnnotations && data.responses[0].labelAnnotations.length > 0) {
+                    const labels = data.responses[0].labelAnnotations.map(annotation => annotation.description);
+                    
+                    // Function to prioritize labels based on simplicity and relevance
+                    const prioritizeLabels = (labels) => {
+                        // Define a map of labels and their priority levels (lower is higher priority)
+                        const labelPriorities = {
+                            'cat': 1,
+                            'dog': 2,
+                            // Add other labels here
+                        };
+
+                        // Sort labels based on their priority levels
+                        labels.sort((a, b) => {
+                            const priorityA = labelPriorities[a.toLowerCase()] || Infinity; // Default to Infinity if priority not defined
+                            const priorityB = labelPriorities[b.toLowerCase()] || Infinity; // Default to Infinity if priority not defined
+                            return priorityA - priorityB;
+                        });
+
+                        return labels;
                     };
 
-                    // Sort labels based on their priority levels
-                    labels.sort((a, b) => {
-                        const priorityA = labelPriorities[a.toLowerCase()] || Infinity; // Default to Infinity if priority not defined
-                        const priorityB = labelPriorities[b.toLowerCase()] || Infinity; // Default to Infinity if priority not defined
-                        return priorityA - priorityB;
+                    const prioritizedLabels = prioritizeLabels(labels);
+
+                    const recognitionResult = {
+                        English: prioritizedLabels[0] || "Unidentified", // Use the first label after prioritization, defaulting to "Unidentified" if no labels found
+                        Malay: "", // Placeholder for Malay translation
+                        Chinese: "" // Placeholder for Chinese translation
+                    };
+
+                    translateText(recognitionResult.English, 'en', 'ms').then(malayText => {
+                        recognitionResult.Malay = malayText;
+                        return translateText(recognitionResult.English, 'en', 'zh-CN');
+                    }).then(chineseText => {
+                        recognitionResult.Chinese = chineseText;
+                        return getPinyin(chineseText, 'zh-CN');
+                    }).then(pinyin => {
+                        recognitionResult["Pinyin Tones"] = pinyin;
+                        resolve(recognitionResult);
+                    }).catch(error => {
+                        console.error('Error translating text:', error);
+                        // If translation fails, resolve with English result only
+                        resolve(recognitionResult);
                     });
-
-                    return labels;
-                };
-
-                const prioritizedLabels = prioritizeLabels(labels);
-
-                const recognitionResult = {
-                    English: prioritizedLabels[0] || "Unidentified", // Use the first label after prioritization, defaulting to "Unidentified" if no labels found
-                    Malay: "", // Placeholder for Malay translation
-                    Chinese: "" // Placeholder for Chinese translation
-                };
-
-                translateText(recognitionResult.English, 'en', 'ms').then(malayText => {
-                    recognitionResult.Malay = malayText;
-                    return translateText(recognitionResult.English, 'en', 'zh-CN');
-                }).then(chineseText => {
-                    recognitionResult.Chinese = chineseText;
-                    return getPinyin(chineseText, 'zh-CN');
-                }).then(pinyin => {
-                    recognitionResult["Pinyin Tones"] = pinyin;
-                    displayResult(recognitionResult);
-                }).catch(error => {
-                    console.error('Error translating text:', error);
-                    // If translation fails, display English result only
-                    displayResult(recognitionResult);
-                });
-            } else {
-                const recognitionResult = {
-                    English: "Try again",
-                    Malay: "Cuba lagi",
-                    Chinese: "再试一次"
-                };
-                displayResult(recognitionResult);
-            }
-        })
-        .catch(error => {
-            console.error('Error recognizing image:', error);
-            const recognitionResult = {
-                English: "Error",
-                Malay: "Ralat",
-                Chinese: "错误"
-            };
-            displayResult(recognitionResult);
-        })
-        .finally(() => {
-            document.getElementById('loadingMessage').textContent = ''; // Clear loading message
+                } else {
+                    const recognitionResult = {
+                        English: "Try again",
+                        Malay: "Cuba lagi",
+                        Chinese: "再试一次"
+                    };
+                    resolve(recognitionResult);
+                }
+            })
+            .catch(error => {
+                reject(error);
+            });
         });
     }
 
