@@ -169,21 +169,26 @@
     });
 
     document.getElementById('fileInput').addEventListener('change', function(event) {
+        clearResults(); // Clear past results
+        var capturedImage = document.getElementById('capturedImage');
+        capturedImage.src = ''; // Clear previous image
+        capturedImage.style.display = 'none'; // Hide previous image
+        document.getElementById('loadingMessage').textContent = 'Loading...'; // Display loading message
+
         var file = event.target.files[0];
         if (file) {
             var reader = new FileReader();
             reader.onload = function(e) {
                 var imgUrl = e.target.result;
-                var capturedImage = document.getElementById('capturedImage');
                 capturedImage.src = imgUrl;
-            	capturedImage.style.display = 'block';
+                capturedImage.style.display = 'block';
             
-            // Call the recognizeImage function with the image URL
-            recognizeImage(imgUrl);
-        };
-        reader.readAsDataURL(file);
-    }
-});
+                // Call the recognizeImage function with the image URL
+                recognizeImage(imgUrl);
+            };
+            reader.readAsDataURL(file);
+        }
+    });
 
     function recognizeImage(imgUrl) {
         fetch('https://vision.googleapis.com/v1/images:annotate?key=AIzaSyClrPxLer-VRuWIwtp_9v0xwCViUve5HMc', {
@@ -214,12 +219,12 @@
         })
         .then(data => {
             if (data.responses && data.responses[0] && data.responses[0].labelAnnotations && data.responses[0].labelAnnotations.length > 0) {
-    const labels = data.responses[0].labelAnnotations.map(annotation => annotation.description);
-    
-    // Function to prioritize labels based on simplicity and relevance
-    const prioritizeLabels = (labels) => {
-        // Define a map of labels and their priority levels (lower is higher priority)
-       const labelPriorities = {
+                const labels = data.responses[0].labelAnnotations.map(annotation => annotation.description);
+                
+                // Function to prioritize labels based on simplicity and relevance
+                const prioritizeLabels = (labels) => {
+                    // Define a map of labels and their priority levels (lower is higher priority)
+                    const labelPriorities = {
     'cat': 1,
     'dog': 2,
     'cow': 3,
@@ -287,25 +292,27 @@
     'van': 65,
     'bicycle': 66,
     'traffic light': 67,
-};
+                        // Add other labels here
+                    };
 
-        // Sort labels based on their priority levels
-        labels.sort((a, b) => {
-            const priorityA = labelPriorities[a.toLowerCase()] || Infinity; // Default to Infinity if priority not defined
-            const priorityB = labelPriorities[b.toLowerCase()] || Infinity; // Default to Infinity if priority not defined
-            return priorityA - priorityB;
-        });
+                    // Sort labels based on their priority levels
+                    labels.sort((a, b) => {
+                        const priorityA = labelPriorities[a.toLowerCase()] || Infinity; // Default to Infinity if priority not defined
+                        const priorityB = labelPriorities[b.toLowerCase()] || Infinity; // Default to Infinity if priority not defined
+                        return priorityA - priorityB;
+                    });
 
-        return labels;
-    };
+                    return labels;
+                };
 
-    const prioritizedLabels = prioritizeLabels(labels);
+                const prioritizedLabels = prioritizeLabels(labels);
 
-    const recognitionResult = {
-        English: prioritizedLabels[0] || "Unidentified", // Use the first label after prioritization, defaulting to "Unidentified" if no labels found
-        Malay: "", // Placeholder for Malay translation
-        Chinese: "" // Placeholder for Chinese translation
-    };
+                const recognitionResult = {
+                    English: prioritizedLabels[0] || "Unidentified", // Use the first label after prioritization, defaulting to "Unidentified" if no labels found
+                    Malay: "", // Placeholder for Malay translation
+                    Chinese: "" // Placeholder for Chinese translation
+                };
+
                 translateText(recognitionResult.English, 'en', 'ms').then(malayText => {
                     recognitionResult.Malay = malayText;
                     return translateText(recognitionResult.English, 'en', 'zh-CN');
@@ -331,11 +338,20 @@
         })
         .catch(error => {
             console.error('Error recognizing image:', error);
+            const recognitionResult = {
+                English: "Error",
+                Malay: "Ralat",
+                Chinese: "错误"
+            };
+            displayResult(recognitionResult);
+        })
+        .finally(() => {
+            document.getElementById('loadingMessage').textContent = ''; // Clear loading message
         });
     }
 
     function displayResult(recognitionResult) {
-        clearResults();
+        clearResults(); // Clear existing results
         for (var language in recognitionResult) {
             var resultDiv = document.getElementById('result');
             var columnDiv = document.createElement('div');
@@ -462,7 +478,6 @@
             console.error('Error fetching audio:', error);
         });
     }
-
 	
 </script>
 
