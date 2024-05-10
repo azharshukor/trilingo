@@ -1,1 +1,134 @@
+@import url('https://fonts.googleapis.com/css2?family=Poetsen+One&display=swap');
 
+	@import url('https://fonts.googleapis.com/css2?family=Poppins&display=swap');
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #FFF7F1;
+        }
+
+        h1 {
+            font-family: 'Poetsen One';
+            font-size: 30pt;
+            font-weight: 800;
+            color: #D20062;
+	    line-height: 1;
+	    padding-top: 10px;
+        }
+
+        h2, h3 {
+            font-family: 'Poppins';
+            font-size: 12pt;
+            font-weight: 200;
+            color: #E78895;
+	    line-height: 1.5;
+        }
+
+        h3 {
+            margin-bottom: 20px; /* Adjusted margin */
+            margin-left: 40px;
+            margin-right: 40px;
+            line-height: 1.5;
+        }
+
+        .footer-section {
+            background-color: #FFF7F1;
+            padding-top: 25px;
+	    	padding-bottom: 25px;
+	   		 padding-left: 10px;
+            padding-left: 10px;
+            color: #D20062;
+            font-size: 8pt;
+            text-align: center;
+	    line-height: 1.5;
+		margin-top: 40px;
+        }
+
+        button {
+            font-family: 'Poppins';
+            background-color: #E78895;
+            border: none;
+            color: white;
+            padding: 15px 32px;
+            text-align: center;
+            text-decoration: none;
+            font-size: 18px;
+            cursor: pointer;
+            border-radius: 15px;
+        }
+
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            text-align: center;
+        }
+
+        #uploadBox {
+            border-radius: 0;
+            margin-bottom: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+            overflow: hidden;
+            width: 150px;
+            height: 200px;
+            background-color: white;
+            margin: 0 auto;
+        }
+
+        #capturedImage {
+        	max-width: 100%;
+        	max-height: 100%;
+    	}
+
+
+#result {
+    color: white;
+    display: flex;
+    justify-content: center; /* Center the content horizontally */
+    background-color: #D20062;
+}
+
+.result-column {
+    flex: 1 1 auto; /* Allow flex items to grow and shrink equally */
+    margin: 0 10px; /* Adjust margin to create gaps between columns */
+    padding: 0;
+    margin-bottom: 20px;
+    max-width: calc((100% - 40px - 20px) / 3); /* Adjust maximum width considering gaps */
+    box-sizing: border-box; /* Include padding and border in the element's total width */
+    word-wrap: break-word;
+    hyphens: auto;
+}
+
+.result-heading {
+    font-family: 'Poetsen One';
+    font-size: 14px;
+    font-weight: 100;
+    margin: 0;
+    padding: 0;
+    color: #F9E6E9;
+    line-height: 1;
+    margin-top: 40px;
+}
+
+.result-text {
+    font-family: 'Poppins';
+    font-size: 18px;
+    color: white;
+    font-weight: 600;
+    line-height: 1.5;
+    cursor: pointer;
+}
+
+        .action-button-container {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+    margin-bottom: 20px;
+    max-width: 600px; /* Add this to match the width of .container */
+    margin-left: auto; /* Center the container horizontally */
+    margin-right: auto; /* Center the container horizontally */
+}
+	    
+    </style>
