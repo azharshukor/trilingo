@@ -170,5 +170,12 @@
     margin-left: auto; /* Center the container horizontally */
     margin-right: auto; /* Center the container horizontally */
 }
+
+	.try-again-text {
+    font-family: 'Poppins';
+    color: white;
+    font-size: 16px;
+    text-transform: none;
+}
 	    
 
