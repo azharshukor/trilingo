@@ -9,7 +9,7 @@
 <body>
 <div class="container">
     <h1>Trilingo</h1>
-    <h3>Take a photo to learn what it is in English, Malay and Chinese!</h3>
+    <h3>Take a photo of an animal, fruit, vehicle, or body part to learn what it's called in English, Malay, and Chinese!</h3>
     <div id="uploadBox">
         <div id="cameraBox"></div>
         <img id="capturedImage" src="" style="display: none;">
@@ -49,6 +49,112 @@
                 reader.readAsDataURL(file);
             }
         });
+        
+    function prioritizeLabels(labels) {
+        // Define the preferred labels and their order
+        const preferredLabels = [
+        "lion",
+        "tiger",
+        "cat", 
+        "dog",
+        "zebra",
+        "horse",
+        "deer",
+        "pig",
+        "hippopotamus",
+        "panda",
+        "bear",
+        "rabbit",
+        "cow",
+        "sheep",
+        "giraffe",
+        "monkey",
+        "elephant",
+        "kangaroo",
+        "dolphin",
+        "whale",
+        "fish",
+        "turtle",
+        "penguin",
+        "parrot",
+        "crow",
+        "bird",
+        "butterfly",
+        "spider",
+        "ant",
+        "lizard",
+        "taxi",
+        "car",
+        "bus",
+        "fire engine",
+        "garbage truck",
+        "truck",
+        "bicycle",
+        "motorcycle",
+        "ambulance",
+        "van",
+        "train",
+        "boat",
+        "ship",
+        "helicopter",
+        "airplane",
+        "tractor",
+        "eyes",
+        "eye",
+        "nose",
+        "ear",
+        "ears",
+        "mouth",
+        "hair",
+        "face",
+        "neck",
+        "shoulder",
+        "hand",
+        "hands",
+        "elbow",
+        "arm",
+        "knee",
+        "feet",
+        "leg",
+        "fingers",
+        "finger",
+        "apple",
+        "banana",
+        "grapes",
+        "strawberry",
+        "watermelon",
+        "pineapple",
+        "peach",
+        "pear",
+        "mango",
+        "kiwi",
+        "blueberry",
+        "rasberry",
+        "cherry",
+        "durian",
+        "plum",
+        "lemon",
+        "lime",
+        "papaya",
+        "coconut",
+        "honeydew",
+        "starfruit",
+        "jackfruit",
+        "rambutan",
+        "orange",
+        
+        ];
+
+        // Filter out labels that are not in the preferred list
+        const filteredLabels = labels.filter(label => preferredLabels.includes(label.toLowerCase()));
+
+        // Sort the filtered labels based on their index in the preferred list
+        filteredLabels.sort((a, b) => {
+            return preferredLabels.indexOf(a.toLowerCase()) - preferredLabels.indexOf(b.toLowerCase());
+        });
+
+        return filteredLabels;
+    }
 
     function recognizeImage(imgUrl) {
         fetch('https://vision.googleapis.com/v1/images:annotate?key=AIzaSyClrPxLer-VRuWIwtp_9v0xwCViUve5HMc', {
@@ -79,136 +185,50 @@
         })
         .then(data => {
             if (data.responses && data.responses[0] && data.responses[0].labelAnnotations && data.responses[0].labelAnnotations.length > 0) {
-    const labels = data.responses[0].labelAnnotations.map(annotation => annotation.description);
-    
-    // Function to prioritize labels based on simplicity and relevance
-    const prioritizeLabels = (labels) => {
-        // Define a map of labels and their priority levels (lower is higher priority)
-       const labelPriorities = {
-    'cat': 1,
-    'dog': 2,
-    'cow': 3,
-    'bird': 4,
-    'horse': 5,
-    'fish': 6,
-    'rabbit': 7,
-    'frog': 8,
-    'turtle': 9,
-    'snake': 10,
-    'lion': 11,
-    'tiger': 12,
-    'elephant': 13,
-    'butterfly': 14,
-    'ant': 15,
-    'spider': 16,
-    'ladybug': 17,
-    'dragonfly': 18,
-    'bee': 19,
-    'cup': 20, 
-    'spoon': 21, 
-    'fork': 22, 
-    'plate': 23, 
-    'bowl': 24, 
-    'chopsticks': 25,
-    'book': 26,
-    'computer': 27,
-    'bag': 28,
-    'pillow': 29,
-    'towel': 30,
-    'shirt': 31, 
-    'pants': 32,
-    'shorts': 33,
-    'skirt': 34,
-    'clothes': 35,
-    'toilet': 36,
-    'toothbrush': 37,
-    'toothpaste': 38,
-    'cloud': 39,
-    'sun': 40,
-    'playground': 41, 
-    'star': 42,
-    'sea': 43,
-    'sand': 44,
-    'tree': 45,
-    'leaf': 46,
-    'grass': 47,
-    'hand': 48,
-    'leg': 49,
-    'eye': 50,
-    'nose': 51,
-    'mouth': 52,
-    'teeth': 53,
-    'ears': 54,
-    'ball': 55,
-    'teddy bear': 56,
-    'television': 57,
-    'mobile phone': 58,
-    'bottle': 59,
-    'shoe': 60,
-    'sandals': 61,
-    'car': 62, 
-    'bus': 63,
-    'motorcycle': 64,
-    'van': 65,
-    'bicycle': 66,
-    'traffic light': 67,
-    'apple': 68,
-    'pear': 69,
-    'pineapple': 70,
-    'strawberry': 71,
-    'grapes': 72,
-    'watermellon': 73,
-    'computer mouse': 74,
-    'mouse': 75,
-    'table': 76,
-    'chair': 77,
-    
-};
-
-        // Sort labels based on their priority levels
-        labels.sort((a, b) => {
-            const priorityA = labelPriorities[a.toLowerCase()] || Infinity; // Default to Infinity if priority not defined
-            const priorityB = labelPriorities[b.toLowerCase()] || Infinity; // Default to Infinity if priority not defined
-            return priorityA - priorityB;
-        });
-
-        return labels;
-    };
-
-    const prioritizedLabels = prioritizeLabels(labels);
-
-    const recognitionResult = {
-        English: prioritizedLabels[0] || "Unidentified", // Use the first label after prioritization, defaulting to "Unidentified" if no labels found
-        Malay: "", // Placeholder for Malay translation
-        Chinese: "" // Placeholder for Chinese translation
-    };
-                translateText(recognitionResult.English, 'en', 'ms').then(malayText => {
-                    recognitionResult.Malay = malayText;
-                    return translateText(recognitionResult.English, 'en', 'zh-CN');
-                }).then(chineseText => {
-                    recognitionResult.Chinese = chineseText;
-                    return getPinyin(chineseText, 'zh-SG');
-                }).then(pinyin => {
-                    recognitionResult["Pinyin Tones"] = pinyin;
-                    displayResult(recognitionResult);
-                }).catch(error => {
-                    console.error('Error translating text:', error);
-                    // If translation fails, display English result only
-                    displayResult(recognitionResult);
-                });
-            } else {
-                const recognitionResult = {
-                    English: "Try again",
-                    Malay: "Cuba lagi",
-                    Chinese: "再试一次"
-                };
-                displayResult(recognitionResult);
+                const labels = data.responses[0].labelAnnotations.map(annotation => annotation.description);
+                const prioritizedLabels = prioritizeLabels(labels);
+                if (prioritizedLabels.length > 0) {
+                    const recognitionResult = {
+                        English: prioritizedLabels[0],
+                        Malay: "",
+                        Chinese: ""
+                    };
+                    translateText(recognitionResult.English, 'en', 'ms').then(malayText => {
+                        recognitionResult.Malay = malayText;
+                        return translateText(recognitionResult.English, 'en', 'zh-CN');
+                    }).then(chineseText => {
+                        recognitionResult.Chinese = chineseText;
+                        return getPinyin(chineseText, 'zh-SG');
+                    }).then(pinyin => {
+                        recognitionResult["Pinyin Tones"] = pinyin;
+                        displayResult(recognitionResult);
+                    }).catch(error => {
+                        console.error('Error translating text:', error);
+                        displayResult(recognitionResult);
+                    });
+                } else {
+                displayTryAgain();
             }
-        })
-        .catch(error => {
-            console.error('Error recognizing image:', error);
-        });
-    }
+        } else {
+            displayTryAgain();
+        }
+    })
+    .catch(error => {
+        console.error('Error recognizing image:', error);
+    });
+}
+
+function displayTryAgain() {
+    clearResults();
+
+ 	var resultDiv = document.getElementById('result');
+    var text = document.createElement('p');
+    text.classList.add('result-text');
+    text.classList.add('try-again-text'); // Apply the custom CSS class
+    text.textContent = "We did not recognise the object in the photo. Please try again.";
+
+    resultDiv.appendChild(text);
+}
 
     function displayResult(recognitionResult) {
         clearResults();
@@ -417,4 +437,3 @@ function speakText(text, columnNumber) {
 
 </body>
 </html>
-
