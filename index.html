@@ -260,7 +260,7 @@ function displayTryAgain() {
             var wordSpan = document.createElement('span');
             wordSpan.classList.add('word');
             wordSpan.textContent = recognitionResult[language];
-            text.innerHTML = '<img src="play-button.svg"/>';
+            text.innerHTML = '<img class="play-button" src="play-button.svg"/>';
             text.style.whiteSpace = "pre-line";
             text.appendChild(wordSpan);
 	    
