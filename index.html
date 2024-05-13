@@ -260,8 +260,9 @@ function displayTryAgain() {
             var wordSpan = document.createElement('span');
             wordSpan.classList.add('word');
             wordSpan.textContent = recognitionResult[language];
-            text.textContent = "▶️ "  
- 	    text.appendChild(wordSpan);
+            text.textContent = "🔈\n"
+            text.style.whiteSpace = "pre-line";
+            text.appendChild(wordSpan);
 	    
 
             if (language === 'Chinese') {
