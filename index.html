@@ -260,7 +260,9 @@ function displayTryAgain() {
             var wordSpan = document.createElement('span');
             wordSpan.classList.add('word');
             wordSpan.textContent = recognitionResult[language];
-            text.appendChild(wordSpan);
+            text.textContent = "🔉 "  
+ 	    text.appendChild(wordSpan);
+	    
 
             if (language === 'Chinese') {
                 var pinyinSpan = document.createElement('span');
