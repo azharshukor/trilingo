@@ -1,8 +1,8 @@
-    document.getElementById('onCameraButton').addEventListener('click', function() {
-            document.getElementById('fileInput').click();
-        });
+document.getElementById('onCameraButton').addEventListener('click', function() { 
+	document.getElementById('fileInput').click();
+	});
 
-        document.getElementById('fileInput').addEventListener('change', function(event) {
+document.getElementById('fileInput').addEventListener('change', function(event) {
             var file = event.target.files[0];
             if (file) {
                 var reader = new FileReader();
@@ -19,9 +19,9 @@
             }
         });
         
-    function prioritizeLabels(labels) {
-        // Define the preferred labels and their order
-        const preferredLabels = [
+function prioritizeLabels(labels) {
+// Define the preferred labels and their order
+const preferredLabels = [
         "lion",
         "tiger",
         "cat", 
@@ -125,8 +125,7 @@
 	"gate",
 	"remote control",
 	"fan",
-		
-        ];
+];
 
         // Filter out labels that are not in the preferred list
         const filteredLabels = labels.filter(label => preferredLabels.includes(label.toLowerCase()));
