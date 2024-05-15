@@ -19,10 +19,10 @@ background: linear-gradient(360deg, rgba(255,255,255,1) 0%, rgba(255,247,241,1) 
 
         h2 {
             font-family: 'Poppins';
-            font-size: 20pt;
+            font-size: 10pt;
             font-weight: 300;
             color: #D20062;
-	    padding-top: 10px;
+	    padding-top: 20px;
             margin-bottom: 30px; 
             margin-left: 40px;
             margin-right: 40px;
