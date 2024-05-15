@@ -209,7 +209,7 @@ const preferredLabels = [
                     };
                     translateText(recognitionResult.English, 'en', 'ms').then(malayText => {
                         recognitionResult.Malay = malayText;
-                        return translateText(recognitionResult.English, 'en', 'zh-CN');
+                        return translateText(recognitionResult.English, 'en', 'zh-SG');
                     }).then(chineseText => {
                         recognitionResult.Chinese = chineseText;
                         return getPinyin(chineseText, 'zh-SG');
@@ -260,7 +260,7 @@ function displayTryAgain() {
             var wordSpan = document.createElement('span');
             wordSpan.classList.add('word');
             wordSpan.textContent = recognitionResult[language];
-            text.innerHTML = '<img class="play-button" src="playbutton.png"/>';
+            text.innerHTML = '<img class="play-button" src="speak-button.png"/>';
             text.innerHTML += '<br>';
             text.appendChild(wordSpan);
 	    
