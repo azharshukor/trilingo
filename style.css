@@ -37,7 +37,7 @@ background: linear-gradient(360deg, rgba(255,255,255,1) 0%, rgba(255,247,241,1) 
             font-size: 8pt;
             text-align: center;
 	    line-height: 1.5;
-		margin-top: 40px;
+		margin-top: 20px;
         }
 
        .button {
@@ -119,8 +119,8 @@ background: linear-gradient(360deg, rgba(255,255,255,1) 0%, rgba(255,247,241,1) 
     color: white;
     display: flex;
     justify-content: center; 
-    background: rgb(152,0,71);
-background: linear-gradient(0deg, rgba(152,0,71,1) 0%, rgba(210,0,98,1) 100%);
+    background: rgb(190,1,89);
+background: linear-gradient(0deg, rgba(190,1,89,1) 0%, rgba(210,0,98,1) 100%);;
     box-shadow: rgba(255, 255, 255, .2) 0 3px 15px inset, rgba(0, 0, 0, .1) 0 3px 5px, rgba(0, 0, 0, .1) 0 10px 13px;
     }
 
