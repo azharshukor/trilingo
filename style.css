@@ -4,7 +4,8 @@
 
         body {
             font-family: 'Poppins', sans-serif;
-            background-color: #FFF7F1;
+            background: rgb(255,255,255);
+background: linear-gradient(360deg, rgba(255,255,255,1) 0%, rgba(255,247,241,1) 100%);
         }
 
         h1 {
@@ -20,7 +21,7 @@
             font-family: 'Poppins';
             font-size: 10pt;
             font-weight: 300;
-            color: #E78895;	
+            color: #D20062;	
             margin-bottom: 30px; 
             margin-left: 40px;
             margin-right: 40px;
@@ -28,7 +29,6 @@
         }
 
         .footer-section {
-            background-color: #FFF7F1;
             padding-top: 25px;
 	    	padding-bottom: 25px;
 	   		 padding-left: 10px;
@@ -68,12 +68,12 @@
   border-radius: 125px;
   content: "";
   height: 50%;
-  left: 4%;
+  left: 7%;
   opacity: .5;
   position: absolute;
   top: 0;
   transition: all .3s;
-  width: 92%;
+  width: 86%;
 }
 
 .button:hover {
@@ -94,7 +94,7 @@
         }
 
         #uploadBox {
-            border-radius: 0;
+            border-radius: 15px;
             margin-bottom: 20px;
             display: flex;
             justify-content: center;
@@ -103,8 +103,9 @@
             overflow: hidden;
             width: 150px;
             height: 200px;
-            background-color: white;
+            background-color: #fff;
             margin: 0 auto;
+            border: 2px solid #ffadcb;
         }
 
         #capturedImage {
@@ -114,22 +115,25 @@
 
 
 #result {
+    border-radius: 15px;
     color: white;
     display: flex;
-    justify-content: center; /* Center the content horizontally */
-    background-color: #D20062;
+    justify-content: center; 
+    background: rgb(152,0,71);
+background: linear-gradient(0deg, rgba(152,0,71,1) 0%, rgba(210,0,98,1) 100%);
     box-shadow: rgba(255, 255, 255, .2) 0 3px 15px inset, rgba(0, 0, 0, .1) 0 3px 5px, rgba(0, 0, 0, .1) 0 10px 13px;
     }
 
 .result-column {
-    flex: 1 1 auto; /* Allow flex items to grow and shrink equally */
+    flex: 1 1 auto; 
     margin: 0 10px; /* Adjust margin to create gaps between columns */
     padding: 0;
-    margin-bottom: 20px;
-    max-width: calc((100% - 40px - 20px) / 3); /* Adjust maximum width considering gaps */
-    box-sizing: border-box; /* Include padding and border in the element's total width */
+    margin-bottom: 5px;
+    max-width: calc((100% - 40px - 20px) / 3); 
+    box-sizing: border-box; 
     word-wrap: break-word;
     hyphens: auto;
+    
 }
 
 .result-heading {
@@ -140,7 +144,7 @@
     padding: 0;
     color: #F9E6E9;
     line-height: 1;
-    margin-top: 40px;
+    margin-top: 25px;
 }
 
 .result-text {
