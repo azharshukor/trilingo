@@ -1,36 +1,50 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Tutur</title>
-<style>
-
-	@import url('https://fonts.googleapis.com/css2?family=Poetsen+One&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Poetsen+One&display=swap');
 
 @import url('https://fonts.googleapis.com/css2?family=Poppins&display=swap');
 
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: rgb(255,255,255);
+background: linear-gradient(360deg, rgba(255,255,255,1) 0%, rgba(255,247,241,1) 100%);
+        }
 
-    body {
-    font-family: 'Poppins', sans-serif;
-    font-size: 14pt;
-    margin: 0; /* Reset margin to ensure full coverage */
-    padding-left: 40px;
-    padding-right: 40px;
-    text-align: center;
-    background: #1F3235;
-    color: #FAF5E9;
-    
-    
-}
-    
-    #question, #timer, #result, #recordedAnswer, #checkResult, #next {
-        display: none;
-    }
-    
-    .button {
-  background-color: #009B4D;
-  border: 0; 
+        h1 {
+            font-family: 'Poetsen One';
+            font-size: 30pt;
+            font-weight: 800;
+            color: #D20062;
+	    line-height: 1;
+	    padding-top: 10px;
+        }
+
+        h2 {
+            font-family: 'Poppins';
+            font-size: 10pt;
+            font-weight: 300;
+            color: #D20062;
+	    padding-top: 20px;
+            margin-bottom: 30px; 
+            margin-left: 40px;
+            margin-right: 40px;
+            line-height: 1.5;
+        }
+
+        .footer-section {
+            padding-top: 25px;
+	    	padding-bottom: 25px;
+	   		 padding-left: 10px;
+            padding-left: 10px;
+            color: #D20062;
+            font-size: 8pt;
+            text-align: center;
+	    line-height: 1.5;
+		margin-top: 20px;
+        }
+
+       .button {
+  background-color: #D20062;
+  border: 0;
+  margin: 20px; 
   border-radius: 56px;
   color: #fff;
   cursor: pointer;
@@ -39,7 +53,6 @@
   font-size: 18px;
   font-weight: 600;
   outline: 0;
-  padding-top: 20px;
   padding: 16px 21px;
   position: relative;
   text-align: center;
@@ -48,8 +61,6 @@
   user-select: none;
   -webkit-user-select: none;
   touch-action: manipulation;
-  display: block;
-  margin: 40px auto;
 }
 
 .button:before {
@@ -58,12 +69,12 @@
   border-radius: 125px;
   content: "";
   height: 50%;
-  left: 10%;
+  left: 7%;
   opacity: .5;
   position: absolute;
   top: 0;
   transition: all .3s;
-  width: 80%;
+  width: 86%;
 }
 
 .button:hover {
@@ -71,225 +82,107 @@
   transform: scale(1.05);
 }
 
- h1 {
-            font-family: 'Poppins';
-            font-size: 30pt;
-            font-weight: 800;
-            color: #FAF5E9;
-            line-height: 1;
-	    	padding-bottom: 10px;
-            padding-top: 10px;
-        }
-        
-h2 {
-            font-family: 'Poppins';
-            font-size: 24pt;
-            font-weight: 800;
-            color: #FFCC00;
-            padding-bottom: 10px;
-            padding-top: 10px;
-            margin-left: 40px;
-            margin-right: 40px;
-            line-height: 1;
-        }
-        
-h3 {
-            font-family: 'Poppins';
-            font-size: 14pt;
-            font-weight: 800;
-            color: #FFCC00; 
-            margin-left: 40px;
-            margin-right: 40px;
-            padding-top: 20px;
-            line-height: 1;
-        }
-        
- h4 {
-            font-family: 'Poppins';
-            font-size: 18pt;
-            font-weight: 800;
-            color: #FAF5E9; 
-            margin-left: 40px;
-            margin-right: 40px;
-            line-height: 1;
-        }       
-        
+@media (min-width: 768px) {
+  .button {
+    padding: 16px 48px;
+  }
+}
 
-.question-image {
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            text-align: center;
+        }
+
+        #uploadBox {
+            border-radius: 15px;
+            margin-bottom: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+            overflow: hidden;
+            width: 150px;
+            height: 200px;
+            background-color: #fff;
+            margin: 0 auto;
+            border: 2px solid #ffadcb;
+        }
+
+        #capturedImage {
+        	max-width: 100%;
+        	max-height: 100%;
+    	}
+
+
+#result {
     border-radius: 15px;
-    margin-bottom: 20px;
+    color: white;
+    display: flex;
+    justify-content: center; 
+    background: rgb(190,1,89);
+background: linear-gradient(0deg, rgba(190,1,89,1) 0%, rgba(210,0,98,1) 100%);;
+    box-shadow: rgba(255, 255, 255, .2) 0 3px 15px inset, rgba(0, 0, 0, .1) 0 3px 5px, rgba(0, 0, 0, .1) 0 10px 13px;
+    }
+
+.result-column {
+    flex: 1 1 auto; 
+    margin: 0 10px; /* Adjust margin to create gaps between columns */
+    padding: 0;
+    margin-bottom: 5px;
+    max-width: calc((100% - 40px - 20px) / 3); 
+    box-sizing: border-box; 
+    word-wrap: break-word;
+    hyphens: auto;
+    
+}
+
+.result-heading {
+    font-family: 'Poetsen One';
+    font-size: 14px;
+    font-weight: 100;
+    margin: 0;
+    padding: 0;
+    color: #F9E6E9;
+    line-height: 1;
+    margin-top: 25px;
+}
+
+.result-text {
+    font-family: 'Poppins';
+    font-size: 18px;
+    color: white;
+    font-weight: 600;
+    line-height: 1.5;
+    cursor: pointer;
+    text-transform: lowercase;
+}
+
+        .action-button-container {
     display: flex;
     justify-content: center;
-    align-items: center;
-    position: relative;
-    overflow: hidden;
-    width: 200px;
-    height: 200px;
-    margin: 0 auto;
-    border: 2px solid #ffadcb;
-}
-                
-</style>
-
-</head>
-<body>
-    <h1>Tutur</h1>
-    <h2>Ayuh, cakap Melayu!</h2>
-    <p>Dalam permainan ini, anda harus katakan apa yang anda lihat dalam gambar yang ditunjukkan.<br><br>Tekan butang di bawah untuk mula.</p>
-    <button class="button" role="button" id="startButton">Mula Teka</button>
-
-    <div id="question"></div>
-    <div id="timer"></div>
-    <div id="recordedAnswer"></div>
-    <button class="button" role="button" id="checkResult">Semak Jawabpan</button>
-    <div id="result"></div>
-    <button class="button" role="button" id="next">Soalan Selanjutnya</button>
-
-    <script>
-        var questions = ["anjing", "gajah", "harimau", "tembikai", "nenas", "epal"];
-        var images = ["anjing.jpeg", "gajah.jpeg", "harimau.jpeg", "tembikai.jpeg", "nenas.jpeg", "epal.jpeg"];
-        var currentQuestionIndex = 0;
-        var userAnswer = "";
-        var score = 0;
-
-        document.getElementById("startButton").addEventListener("click", startTest);
-        document.getElementById("checkResult").addEventListener("click", checkResult);
-        document.getElementById("next").addEventListener("click", nextQuestion);
-
-        function startTest() {
-    document.querySelector("p").style.display = "none";
-    document.querySelector("h2").style.display = "none";
-    document.getElementById("startButton").style.display = "none";
-    currentQuestionIndex = 0;
-    
-    // Shuffle questions and images
-    shuffleQuestionsAndImages();
-    
-    // Ask the first question
-    askQuestion();
+    margin-top: 20px;
+    margin-bottom: 20px;
+    max-width: 600px; /* Add this to match the width of .container */
+    margin-left: auto; /* Center the container horizontally */
+    margin-right: auto; /* Center the container horizontally */
 }
 
-// Function to shuffle questions and images arrays
-function shuffleQuestionsAndImages() {
-    // Combine questions and images into one array of objects
-    var combinedArray = questions.map((q, index) => ({ question: q, image: images[index] }));
-    
-    // Shuffle the combined array
-    for (let i = combinedArray.length - 1; i > 0; i--) {
-        const j = Math.floor(Math.random() * (i + 1));
-        [combinedArray[i], combinedArray[j]] = [combinedArray[j], combinedArray[i]];
-    }
-    
-    // Extract questions and images back to separate arrays
-    questions = combinedArray.slice(0, 5).map(obj => obj.question);
-    images = combinedArray.slice(0, 5).map(obj => obj.image);
+	.try-again-text {
+    font-family: 'Poppins';
+    color: white;
+    font-size: 16px;
+    font-weight: 300;
+    text-transform: none;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    padding-right: 40px;
+    padding-left: 40px
 }
 
-        function askQuestion() {
-            if (currentQuestionIndex < questions.length) {
-                var currentQuestion = questions[currentQuestionIndex];
-                var currentImage = images[currentQuestionIndex];
-                document.getElementById("question").innerHTML = `
-    			<h3>Soalan ${currentQuestionIndex + 1}</h3>
-    			<h4>Apa yang anda lihat dalam gambar ini?</h4>
-    			<div class="question-image">
-      			<img src="${currentImage}" alt="${currentQuestion}" style="width: 100%; height: auto;">	
-    </div>`;
-                document.getElementById("timer").innerHTML = `<h3>Masa yang tinggal:</h3><h4>5 saat</h4>`;
-                document.getElementById("question").style.display = "block";
-                document.getElementById("timer").style.display = "block";
-                document.getElementById("recordedAnswer").style.display = "none";
-                document.getElementById("checkResult").style.display = "none";
-                document.getElementById("result").style.display = "none";
-                startTimer();
-                startListening();
-            } else {
-                endTest();
-            }
-        }
-
-        function startTimer() {
-            var seconds = 5;
-            var timer = setInterval(function() {
-                seconds--;
-                document.getElementById("timer").innerHTML = `<h3>Masa yang tinggal:</h3><h4>${seconds} saat</h4>`;
-                if (seconds === 0) {
-                    clearInterval(timer);
-                    document.getElementById("timer").style.display = "none";
-                    if (!userAnswer) {
-                        recordedAnswer = "Time's up";
-                        showAnswer(recordedAnswer);
-                    }
-                    stopListening();
-                }
-            }, 1000);
-        }
-
-        function nextQuestion() {
-            if (currentQuestionIndex === questions.length - 1) {
-                document.body.innerHTML = `
-                    <h1>Tutur</h1>
-    <h2>Ayuh, cakap Melayu!</h2>
-    <p>Dalam permainan ini, anda harus katakan apa yang anda lihat dalam gambar yang ditunjukkan.<br><br>Tekan butang di bawah untuk mula.</p>
-    <button class="button" role="button" id="startButton">Mula Teka</button>`;
-                document.getElementById("startButton").addEventListener("click", startTest);
-            } else {
-                currentQuestionIndex++;
-                userAnswer = "";
-                askQuestion();
-                document.getElementById("next").style.display = "none";
-            }
-        }
-
-        function showAnswer(answer) {
-            document.getElementById("question").style.display = "none";
-            document.getElementById("timer").style.display = "none";
-            var currentQuestion = questions[currentQuestionIndex];
-            var currentImage = images[currentQuestionIndex];
-            var correctAnswer = questions[currentQuestionIndex];
-            document.getElementById("recordedAnswer").innerHTML = `
-                
-                <div class="question-image">
-                    <img src="${currentImage}" alt="${currentQuestion}" style="width: 100%; height: auto;">
-                </div>
-                <h3>Apa yang kami dengar anda katakan...</h3>
-                <h4>${answer}</h4>
-                <h3>Jawabpan yang betul adalah...</h3>
-                <h4>${correctAnswer}</h4>`;
-          
-
-            
-            var resultElement = document.getElementById("result");
-
-           	if (answer.includes(correctAnswer)) {
-    score++;
-    resultElement.innerHTML = `<div style="background-color: #FFCC00; border-radius: 25px; padding: 20px; font-size: 14pt; color: black; display: inline-block;">Tahniah! Jawabpan anda betul.</div>`;
-} 			
-			else {
-    resultElement.innerHTML = `<div style="background-color: #FFCC00; border-radius: 25px; padding: 20px; font-size: 14pt; color: black; display: inline-block;">Maaf! Jawabpan anda tidak tepat.</div>`;
+.play-button {
+    height: 16px; 
+    width: auto;
+    padding-bottom: 5px;
 }
-
-            var currentQuestionNumber = currentQuestionIndex + 1;
-            var scoreDisplay = `${score}/${currentQuestionNumber}`;
-            var stars = score > 0 ? '⭐'.repeat(score) : '';
-
-            if (currentQuestionIndex === questions.length - 1) {
-                
-                resultElement.innerHTML += `<h3>Markah penuh:</h3><h4>${scoreDisplay}</h4>`;
-                document.getElementById("next").textContent = "Try Again";
-                document.getElementById("next").addEventListener("click", function() {
-                    window.location.href = window.location.origin + window.location.pathname;
-                });
-            } else {
-               
-                resultElement.innerHTML += `<h3>Markah anda:</h3><h4>${scoreDisplay}<br>${stars}</h4>`;
-                document.getElementById("next").textContent = "Next Question";
-            }
-
-            document.getElementById("recordedAnswer").style.display = "block";
-            resultElement.style.display = "block";
-            document.getElementById("next").style.display = "block";
-        }
-    </script>
-</body>
-</html>
+	
