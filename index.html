@@ -47,8 +47,6 @@
 
 </div>
 
-<script src="https://cdn.jsdelivr.net/npm/pinyin-pro@latest/dist/pinyin-pro.js"></script>
-
     <script>
         var wordList = [
 	"lion",
@@ -263,7 +261,6 @@ var firstTimeTriggered = true;
                 translateText(englishText, 'en', 'ms').then(malayTranslation => {
                     // Translate English text to Chinese (Singapore)
                     translateText(englishText, 'en', 'zh-CN').then(chineseTranslation => {
-			    var pinyintext = convertToPinyin(chineseTranslation);
                         // Hide loading text
                         document.getElementById('loadingText').style.display = 'none';
 
@@ -271,7 +268,7 @@ var firstTimeTriggered = true;
                        document.getElementById('malayButton').innerHTML = `${malayTranslation} <img src="speak-button.png" class="speak-icon" alt="Speak"/>`;
                         document.getElementById('malayButton').classList.remove('hidden');
 
-                       document.getElementById('chineseButton').innerHTML = `${chineseTranslation} ${pinyintext} <img src="speak-button.png" class="speak-icon" alt="Speak" /> `;
+                       document.getElementById('chineseButton').innerHTML = `${chineseTranslation} <img src="speak-button.png" class="speak-icon" alt="Speak" /> `;
                         document.getElementById('chineseButton').classList.remove('hidden');
 
                         // Display English button
@@ -430,10 +427,6 @@ document.addEventListener('DOMContentLoaded', function() {
         speak(chineseText, 'zh');
     });
 });
-
-function convertToPinyin(chineseText) {
-            return pinyinPro.pinyin(chineseText, { toneType: 'num' });
-        }
 
     </script>
 </body>
