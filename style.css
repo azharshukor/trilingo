@@ -82,8 +82,8 @@
             transform: scale(1.05);
         }
         .resultsbutton {
-            background: rgb(73,156,110);
-	    background: linear-gradient(0deg, rgba(73,156,110,1) 0%, rgba(92,194,138,1) 25%);
+            background: rgb(49,103,73);
+	    background: linear-gradient(0deg, rgba(49,103,73,1) 0%, rgba(61,131,92,1) 50%);
             border: 0; 
             border-radius: 5px;
             color: #fff;
