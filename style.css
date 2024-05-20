@@ -148,5 +148,12 @@ background: linear-gradient(0deg, rgba(190,1,89,1) 0%, rgba(210,0,98,1) 100%);;
 	    line-height: 1.5;
 		margin-top: 20px;
         }
+
+	.speak-icon {
+  	  width: 20px; /* Adjust the width as needed */
+   	  height: auto;
+  	  margin-left: 10px; /* Space between text and icon */
+  	  vertical-align: middle; /* Align icon vertically with text */
+}
         
 
