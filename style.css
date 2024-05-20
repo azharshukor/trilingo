@@ -5,10 +5,16 @@
 @import url('https://fonts.googleapis.com/css2?family=Short+Stack&display=swap');
 
         body {
-            font-family: 'Poppins', sans-serif;
-            background: rgb(255,255,255);
-background: linear-gradient(360deg, rgba(255,255,255,1) 0%, rgba(255,247,241,1) 100%);
-        }
+  	   margin: 0; /* Remove default margin */
+ 	   padding: 0; /* Remove default padding */
+	}
+
+	.gradient-container {
+   		min-height: 100vh; /* Ensure container covers the full viewport height */
+    		font-family: 'Poppins', sans-serif;
+    		background: rgb(255, 255, 255);
+    		background: linear-gradient(360deg, rgba(255, 255, 255, 1) 0%, rgba(255, 247, 241, 1) 100%);
+	}
         
         .container {
             max-width: 800px;
@@ -76,8 +82,8 @@ background: linear-gradient(360deg, rgba(255,255,255,1) 0%, rgba(255,247,241,1) 
             transform: scale(1.05);
         }
         .resultsbutton {
-            background: rgb(59,106,80);
-	    background: linear-gradient(0deg, rgba(59,106,80,1) 0%, rgba(73,156,110,1) 25%)
+            background: rgb(73,156,110);
+	    background: linear-gradient(0deg, rgba(73,156,110,1) 0%, rgba(92,194,138,1) 25%);
             border: 0; 
             border-radius: 5px;
             color: #fff;
