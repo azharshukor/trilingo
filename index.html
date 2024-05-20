@@ -250,14 +250,14 @@
                         document.getElementById('loadingText').style.display = 'none';
 
                         // Display Malay and Chinese buttons
-                        document.getElementById('malayButton').innerText = malayTranslation;
+                       document.getElementById('malayButton').innerHTML = `${malayTranslation} <img src="speak-button.png" class="speak-icon" alt="Speak"/>`;
                         document.getElementById('malayButton').classList.remove('hidden');
 
-                        document.getElementById('chineseButton').innerText = chineseTranslation;
+                       document.getElementById('chineseButton').innerHTML = `${chineseTranslation} <img src="speak-button.png" class="speak-icon" alt="Speak" /> `;
                         document.getElementById('chineseButton').classList.remove('hidden');
 
                         // Display English button
-                        document.getElementById('englishButton').innerText = englishText;
+                       document.getElementById('englishButton').innerHTML = `${englishText} <img src="speak-button.png" class="speak-icon" alt="Speak" /> `;
                         document.getElementById('englishButton').classList.remove('hidden');
 
                         // Show all translation buttons together
