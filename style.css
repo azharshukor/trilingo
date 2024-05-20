@@ -76,8 +76,8 @@ background: linear-gradient(360deg, rgba(255,255,255,1) 0%, rgba(255,247,241,1) 
             transform: scale(1.05);
         }
         .resultsbutton {
-            background: #499C6E;
-	    background: linear-gradient(0deg, rgba(190,1,89,1) 0%, rgba(210,0,98,1) 100%);;
+            background: rgb(59,106,80);
+	    background: linear-gradient(0deg, rgba(59,106,80,1) 0%, rgba(73,156,110,1) 25%)
             border: 0; 
             border-radius: 5px;
             color: #fff;
@@ -170,7 +170,7 @@ background: linear-gradient(360deg, rgba(255,255,255,1) 0%, rgba(255,247,241,1) 
 	}
 
 	.loading {
-	   height: 30px;
+	   height: 50px;
 	}
         
 
