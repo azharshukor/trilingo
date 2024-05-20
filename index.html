@@ -20,6 +20,10 @@
         <button class="button" role="button" id="onCameraButton">Take a photo</button>
         <div id="result"></div>
 
+    <div class="welcomeMessage" id="welcomeMessage" style="display: block;">
+	    <img src="up-arrow.png" class="arrow" alt="arrow"><br>
+	    Take a photo of an animal, fruit, vehicle or body part to learn what it is called in English, Malay and Chinese.</div>
+
         <!-- Updated buttons for English, Malay, and Chinese -->
         <div id="translationButtons" style="display: none;">
             <button id="englishButton" class="resultsbutton hidden">English</button>
@@ -149,13 +153,127 @@
 	"fan",    
 		       ];
 
-        document.getElementById('onCameraButton').addEventListener('click', function() { 
-            // Clear previous results
-            clearResults();
+         var wordList = [
+	"lion",
+	"tiger",
+        "cat", 
+        "dog",
+        "zebra",
+        "horse",
+        "deer",
+        "pig",
+        "hippopotamus",
+        "panda",
+        "bear",
+        "rabbit",
+        "cow",
+        "sheep",
+        "giraffe",
+        "monkey",
+        "elephant",
+        "kangaroo",
+        "dolphin",
+        "whale",
+        "fish",
+        "turtle",
+        "penguin",
+        "parrot",
+        "crow",
+        "bird",
+        "butterfly",
+        "spider",
+        "ant",
+        "lizard",
+        "taxi",
+        "car",
+        "bus",
+        "fire engine",
+        "garbage truck",
+        "truck",
+        "bicycle",
+        "motorcycle",
+        "ambulance",
+        "van",
+        "train",
+        "boat",
+        "ship",
+        "helicopter",
+        "airplane",
+        "tractor",
+        "eyes",
+        "eye",
+        "nose",
+        "ear",
+        "ears",
+        "mouth",
+        "hair",
+        "face",
+        "neck",
+        "shoulder",
+        "hand",
+        "hands",
+        "elbow",
+        "arm",
+        "knee",
+        "feet",
+        "leg",
+        "fingers",
+        "finger",
+        "apple",
+        "banana",
+        "grapes",
+        "strawberry",
+        "watermelon",
+        "pineapple",
+        "peach",
+        "pear",
+        "mango",
+        "kiwi",
+        "blueberry",
+        "rasberry",
+        "cherry",
+        "durian",
+        "plum",
+        "lemon",
+        "lime",
+        "papaya",
+        "coconut",
+        "honeydew",
+        "starfruit",
+        "jackfruit",
+        "rambutan",
+        "orange",
+	"spoon",
+	"fork",
+	"chopsticks",
+	"butter knife",
+	"knife",
+	"plate",
+	"bowl",
+	"cup",
+	"bottle",
+	"toy",
+	"door",
+	"gate",
+	"remote control",
+	"fan",    
+		       ];
 
-            // Trigger file input
-            document.getElementById('fileInput').click();
-        });
+var firstTimeTriggered = true;
+
+        document.getElementById('onCameraButton').addEventListener('click', function() { 
+    // Clear previous results
+    clearResults();
+
+    // Trigger file input
+    document.getElementById('fileInput').click();
+
+    // Hide welcome message after first trigger
+    if (firstTimeTriggered) {
+        document.getElementById('welcomeMessage').style.display = 'none';
+        firstTimeTriggered = false;
+    }
+});
 
         document.getElementById('fileInput').addEventListener('change', function(event) {
             var file = event.target.files[0];
