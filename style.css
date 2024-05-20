@@ -35,7 +35,7 @@ background: linear-gradient(360deg, rgba(255,255,255,1) 0%, rgba(255,247,241,1) 
             max-height: 100%;
         }
         .button {
-            background-color: #499C6E;
+            background-color: #D20563;
             border: 0; 
             border-radius: 56px;
             color: #fff;
@@ -76,7 +76,7 @@ background: linear-gradient(360deg, rgba(255,255,255,1) 0%, rgba(255,247,241,1) 
             transform: scale(1.05);
         }
         .resultsbutton {
-            background: rgb(195,6,94);
+            background: #499C6E;
 	    background: linear-gradient(0deg, rgba(190,1,89,1) 0%, rgba(210,0,98,1) 100%);;
             border: 0; 
             border-radius: 5px;
