@@ -165,8 +165,8 @@ background: linear-gradient(360deg, rgba(255,255,255,1) 0%, rgba(255,247,241,1) 
   	  vertical-align: middle; /* Align icon vertically with text */
 	}
 
-	.arrrow {
-	   height: 5px;
+	.arrow {
+	   height: 10px;
 	}
         
 
