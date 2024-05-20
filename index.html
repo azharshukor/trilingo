@@ -263,14 +263,12 @@
                         // Show all translation buttons together
                         document.getElementById('translationButtons').style.display = 'block';
 
-                        // Play English text first
-                        speak(englishText, 'en', () => {
-                            // After speaking English, play Malay text
-                            speak(malayTranslation, 'ms', () => {
-                                // After speaking Malay, play Chinese text
-                                speak(chineseTranslation, 'zh');
-                            });
-                        });
+                        // Automatic Play (Works on desktop only)
+                        // speak(englishText, 'en', () => {
+                        // speak(malayTranslation, 'ms', () => {
+                        // speak(chineseTranslation, 'zh');
+                        // });
+                        // });
 
                         // Reset file input value
                         document.getElementById('fileInput').value = '';
