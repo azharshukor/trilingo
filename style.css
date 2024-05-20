@@ -2,6 +2,8 @@
 
 @import url('https://fonts.googleapis.com/css2?family=Poppins&display=swap');
 
+@import url('https://fonts.googleapis.com/css2?family=Short+Stack&display=swap');
+
         body {
             font-family: 'Poppins', sans-serif;
             background: rgb(255,255,255);
@@ -136,6 +138,13 @@ background: linear-gradient(360deg, rgba(255,255,255,1) 0%, rgba(255,247,241,1) 
             padding-left: 30px;
             padding-right: 30px;
         }
+
+	.welcomeMessage {
+            padding-left: 40px;
+            padding-right: 40px;
+            font-family: 'Short Stack', cursive;
+            font-size: 16px;
+            }
         
         .footer-section {
             padding-top: 25px;
@@ -154,6 +163,10 @@ background: linear-gradient(360deg, rgba(255,255,255,1) 0%, rgba(255,247,241,1) 
    	  height: auto;
   	  margin-left: 10px; /* Space between text and icon */
   	  vertical-align: middle; /* Align icon vertically with text */
-}
+	}
+
+	.arrrow {
+	height: 20px;
+	}
         
 
