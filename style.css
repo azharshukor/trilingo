@@ -168,5 +168,9 @@ background: linear-gradient(360deg, rgba(255,255,255,1) 0%, rgba(255,247,241,1) 
 	.arrow {
 	   height: 40px;
 	}
+
+	.loading {
+	   height: 30px;
+	}
         
 
