@@ -1,3 +1,5 @@
+const { pinyin } = require('pinyin');
+
 var wordList = [
       	"lion",
        	"tiger",
@@ -218,7 +220,10 @@ var firstTimeTriggered = true;
                        document.getElementById('malayButton').innerHTML = `${malayTranslation} <img src="speak-button.png" class="speak-icon" alt="Speak"/>`;
                         document.getElementById('malayButton').classList.remove('hidden');
 
-                       document.getElementById('chineseButton').innerHTML = `${chineseTranslation} <img src="speak-button.png" class="speak-icon" alt="Speak" /> `;
+                       var pinyinTranslation = pinyin(chineseTranslation);
+                       var pinyinText = pinyinTranslation.flat();
+                       var pinyinspace = pinyinText.join(" ");
+                        document.getElementById('chineseButton').innerHTML = `${chineseTranslation}   /   ${pinyinspace} <img src="speak-button.png" class="speak-icon" alt="Speak" /> `;
                         document.getElementById('chineseButton').classList.remove('hidden');
 
                         // Display English button
@@ -377,4 +382,6 @@ document.addEventListener('DOMContentLoaded', function() {
         speak(chineseText, 'zh');
     });
 });
+
+
 

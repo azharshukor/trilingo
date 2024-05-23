@@ -1,0 +1,9 @@
+{
+  "devDependencies": {
+    "esbuild": "0.21.3"
+  },
+  "dependencies": {
+    "pinyin": "^4.0.0-alpha.0",
+    "segmentit": "^2.0.3"
+  }
+}
