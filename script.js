@@ -379,7 +379,7 @@ document.addEventListener('DOMContentLoaded', function() {
     // Add event listener for Chinese button
     document.getElementById('chineseButton').addEventListener('click', function() {
         var chineseText = document.getElementById('chineseButton').innerText;
-        speak(chineseText, 'zh');
+        speak(chineseTranslation, 'zh');
     });
 });
 
