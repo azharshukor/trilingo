@@ -220,7 +220,8 @@ var firstTimeTriggered = true;
                        document.getElementById('malayButton').innerHTML = `${malayTranslation} <img src="speak-button.png" class="speak-icon" alt="Speak"/>`;
                         document.getElementById('malayButton').classList.remove('hidden');
 
-                       var pinyinTranslation = pinyin(chineseTranslation);
+                        var chineseText = chineseTranslation;
+                        var pinyinTranslation = pinyin(chineseTranslation);
                        var pinyinText = pinyinTranslation.flat();
                        var pinyinspace = pinyinText.join(" ");
                         document.getElementById('chineseButton').innerHTML = `${chineseTranslation}   /   ${pinyinspace} <img src="speak-button.png" class="speak-icon" alt="Speak" /> `;
@@ -378,8 +379,8 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Add event listener for Chinese button
     document.getElementById('chineseButton').addEventListener('click', function() {
-        var chineseText = document.getElementById('chineseButton').innerText;
-        speak(chineseTranslation, 'zh');
+        //var chineseText = document.getElementById('chineseButton').innerText;
+        speak(chineseText, 'zh');
     });
 });
 
