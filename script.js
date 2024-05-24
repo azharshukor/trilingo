@@ -224,6 +224,7 @@ var firstTimeTriggered = true;
                        var pinyinText = pinyinTranslation.flat();
                        var pinyinspace = pinyinText.join(" ");
                         document.getElementById('chineseButton').innerHTML = `${chineseTranslation}   /   ${pinyinspace} <img src="speak-button.png" class="speak-icon" alt="Speak" /> `;
+                        document.getElementById('chineseButton').setAttribute('data-chinese', chineseTranslation);
                         document.getElementById('chineseButton').classList.remove('hidden');
 
                         // Display English button
@@ -378,8 +379,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Add event listener for Chinese button
     document.getElementById('chineseButton').addEventListener('click', function() {
-        var cnText = document.getElementById('chineseButton').innerText;
-        var chineseText = cnText.split(/\s*\/\s*/)[0].trim();        
+        var chineseText = document.getElementById('chineseButton').getAttribute('data-chinese');       
         speak(chineseText, 'zh');
     });
 });
