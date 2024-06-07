@@ -1,74 +1,202 @@
 const { pinyin } = require('pinyin');
 
-const languages = {
-    English: { code: 'en-GB', voice: 'en-GB-Standard-B' },
-    Malay: { code: 'ms-MY', voice: 'ms-MY-Standard-C' },
-    Chinese: { code: 'cmn-CN', voice: 'cmn-CN-Standard-A' },
-    Tamil: { code: 'ta-IN', voice: 'ta-IN-Standard-A' },
-    Korean: { code: 'ko-KR', voice: 'ko-KR-Neural2-A' },
-    Japanese: { code: 'ja-JP', voice: 'ja-JP-Neural2-B' },
-    Arabic: { code: 'ar-XA', voice: 'ar-XA-Standard-B' }
-};
-
-let languageCode1, languageCode2, languageCode3;
-let voiceName1, voiceName2, voiceName3;
-
-const selectedLanguages = [];
-
-document.querySelectorAll('.language-button').forEach(button => {
-    button.addEventListener('click', () => {
-        const language = button.getAttribute('data-language');
-        if (selectedLanguages.includes(language)) {
-            const index = selectedLanguages.indexOf(language);
-            if (index > -1) {
-                selectedLanguages.splice(index, 1);
-                button.classList.remove('selected');
-            }
-        } else if (selectedLanguages.length < 2) {
-            selectedLanguages.push(language);
-            button.classList.add('selected');
+var languages = {
+    English: { code: "en-GB", voice: "en-GB-Standard-B" },
+    Malay: { code: "ms-MY", voice: "ms-MY-Standard-C" },
+    Chinese: { code: "cmn-CN", voice: "cmn-CN-Standard-A" },
+    Tamil: { code: "ta-IN", voice: "ta-IN-Standard-D" },
+    Korean: { code: "ko-KR", voice: "ko-KR-Neural2-A" },
+    Japanese: { code: "ja-JP", voice: "ja-JP-Neural2-B" },
+    Arabic: { code: "ar-XA", voice: "ar-XA-Standard-C" }
+  };
+  var languageCode1;
+  var languageCode2;
+  var languageCode3;
+  var voiceName1;
+  var voiceName2;
+  var voiceName3;
+  var selectedLanguages = [];
+  document.querySelectorAll(".language-button").forEach((button) => {
+    button.addEventListener("click", () => {
+      const language = button.getAttribute("data-language");
+      if (selectedLanguages.includes(language)) {
+        const index = selectedLanguages.indexOf(language);
+        if (index > -1) {
+          selectedLanguages.splice(index, 1);
+          button.classList.remove("selected");
         }
-
-        if (selectedLanguages.length === 2) {
-            document.getElementById('selectLanguagesButton').disabled = false;
-        } else {
-            document.getElementById('selectLanguagesButton').disabled = true;
-        }
+      } else if (selectedLanguages.length < 2) {
+        selectedLanguages.push(language);
+        button.classList.add("selected");
+      }
+      if (selectedLanguages.length === 2) {
+        document.getElementById("selectLanguagesButton").disabled = false;
+      } else {
+        document.getElementById("selectLanguagesButton").disabled = true;
+      }
     });
-});
-
-document.getElementById('selectLanguagesButton').addEventListener('click', () => {
+  });
+  document.getElementById("selectLanguagesButton").addEventListener("click", () => {
     if (selectedLanguages.length === 2) {
-        languageCode1 = languages.English.code;
-        voiceName1 = languages.English.voice;
-
-        languageCode2 = languages[selectedLanguages[0]].code;
-        voiceName2 = languages[selectedLanguages[0]].voice;
-
-        languageCode3 = languages[selectedLanguages[1]].code;
-        voiceName3 = languages[selectedLanguages[1]].voice;
-
-        // Proceed to main app screen
-        document.getElementById('languageSelectionScreen').style.display = 'none';
-        document.getElementById('mainAppScreen').style.display = 'block';
+      languageCode1 = languages.English.code;
+      voiceName1 = languages.English.voice;
+      languageCode2 = languages[selectedLanguages[0]].code;
+      voiceName2 = languages[selectedLanguages[0]].voice;
+      languageCode3 = languages[selectedLanguages[1]].code;
+      voiceName3 = languages[selectedLanguages[1]].voice;
+      document.getElementById("languageSelectionScreen").style.display = "none";
+      document.getElementById("mainAppScreen").style.display = "block";
     }
-});
-        
-
-
-var wordList = [
-    "lion", "tiger", "cat", "dog", "zebra", "horse", "deer", "pig", "hippopotamus", "panda",
-    "bear", "rabbit", "cow", "sheep", "giraffe", "monkey", "elephant", "kangaroo", "dolphin",
-    "whale", "fish", "turtle", "penguin", "parrot", "crow", "bird", "butterfly", "spider", "ant",
-    "lizard", "taxi", "car", "bus", "fire engine", "garbage truck", "truck", "bicycle", "motorcycle",
-    "ambulance", "van", "train", "boat", "ship", "helicopter", "airplane", "tractor", "eyes", "eye",
-    "nose", "ear", "ears", "mouth", "hair", "face", "neck", "shoulder", "hand", "hands", "elbow", "arm",
-    "knee", "feet", "leg", "fingers", "finger", "apple", "banana", "grapes", "strawberry", "watermelon",
-    "pineapple", "peach", "pear", "mango", "kiwi", "blueberry", "raspberry", "cherry", "durian", "plum",
-    "lemon", "lime", "papaya", "coconut", "honeydew", "starfruit", "jackfruit", "rambutan", "orange",
-    "spoon", "fork", "chopsticks", "butter knife", "knife", "plate", "bowl", "cup", "bottle", "toy",
-    "door", "gate", "remote control", "fan"
-];
+  });
+  var wordList = [
+    "lion", 
+    "tiger", 
+    "cat",
+    "wolf",
+    "fox",
+    "yak",
+    "hyena",
+    "porcupine",
+    "numbat",
+    "weasel",
+    "racoon",
+    "otter",
+    "squirrel",
+    "dog",
+    "leopard",
+    "cheetah",
+    "rhinoceros",
+    "reindeer",
+    "koala bear",
+    "buffalo",
+    "donkey",
+    "camel",
+    "tapir",
+    "wombat",
+    "gorila",
+    "zebra",
+    "horse",
+    "deer",
+    "pig",
+    "hippopotamus",
+    "panda",
+    "polar bear",
+    "bear",
+    "rabbit",
+    "cow",
+    "sheep",
+    "goat",
+    "chicken",
+    "giraffe",
+    "monkey",
+    "elephant",
+    "kangaroo",
+    "shark",
+    "stingray",
+    "octopus",
+    "walrus",
+    "sea lion",
+    "jellyfish", 
+    "dolphin",
+    "whale",
+    "fish",
+    "turtle",
+    "tortoise",
+    "penguin",
+    "swan",
+    "duck",
+    "goose",
+    "turkey",
+    "peacock",
+    "toucan",
+    "flamingo",
+    "hummingbird",
+    "owl",
+    "woodecker",
+    "eagle",
+    "sparrow",
+    "pigeon",
+    "bull",
+    "crow",
+    "bird",
+    "butterfly",
+    "spider",
+    "ant",
+    "lizard",
+    "taxi",
+    "car",
+    "bus",
+    "fire engine",
+    "garbage truck",
+    "truck",
+    "bicycle",
+    "motorcycle",
+    "ambulance",
+    "van",
+    "train",
+    "boat",
+    "ship",
+    "helicopter",
+    "airplane",
+    "tractor",
+    "eyes",
+    "eye",
+    "nose",
+    "ear",
+    "ears",
+    "mouth",
+    "hair",
+    "face",
+    "neck",
+    "shoulder",
+    "hand",
+    "hands",
+    "elbow",
+    "arm",
+    "knee",
+    "feet",
+    "leg",
+    "fingers",
+    "finger",
+    "apple",
+    "banana",
+    "grapes",
+    "strawberry",
+    "watermelon",
+    "pineapple",
+    "peach",
+    "pear",
+    "mango",
+    "kiwi",
+    "blueberry",
+    "raspberry",
+    "cherry",
+    "durian",
+    "plum",
+    "lemon",
+    "lime",
+    "papaya",
+    "coconut",
+    "honeydew",
+    "starfruit",
+    "jackfruit",
+    "rambutan",
+    "orange",
+    "spoon",
+    "fork",
+    "chopsticks",
+    "butter knife",
+    "knife",
+    "plate",
+    "bowl",
+    "cup",
+    "bottle",
+    "toy",
+    "door",
+    "gate",
+    "remote control",
+    "fan"
+  ];
 
 
 document.getElementById('onCameraButton').addEventListener('click', function() { 
