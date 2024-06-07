@@ -178,34 +178,34 @@
 	.loading {
 	   height: 50px;
 	}
-
+    
     .language-button {
-        background-color: rgb(149,193,163);
-        border: 0;
-        border-radius: 56px;
-        color: #fff;
-        cursor: pointer;
-        display: inline-block;
-        font-family: 'Poppins', sans-serif;
-        font-size: 14px;
-        font-weight: 600;
-        outline: 0;
-        padding: 10px 10px;
-        position: relative;
-        text-align: center;
-        text-decoration: none;
-        transition: all .3s;
-        user-select: none;
-        -webkit-user-select: none;
-        touch-action: manipulation;
-        margin: 10px;
-        width: 160px;
-    }
+            background-color: rgb(149,193,163);
+            border: 0;
+            border-radius: 56px;
+            color: #fff;
+            cursor: pointer;
+            display: inline-block;
+            font-family: 'Poppins', sans-serif;
+            font-size: 14px;
+            font-weight: 600;
+            outline: 0;
+            padding: 10px 10px;
+            position: relative;
+            text-align: center;
+            text-decoration: none;
+            transition: all .3s;
+            user-select: none;
+            -webkit-user-select: none;
+            touch-action: manipulation;
+            margin: 10px;
+            width: 160px;
+        }
 
-    .language-button.selected {
-        background: rgb(49,103,73);
-    background: linear-gradient(0deg, rgba(49,103,73,1) 0%, rgba(61,131,92,1) 50%);
-    }
+        .language-button.selected {
+            background: rgb(49,103,73);
+	    background: linear-gradient(0deg, rgba(49,103,73,1) 0%, rgba(61,131,92,1) 50%);
+        }
 
         
 
