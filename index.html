@@ -18,63 +18,62 @@
     
 </head>
 	
-<body>
-    <div class="gradient-container">
-        <div class="container">
-            <img src="trilingo.png" alt="Trilingo Logo" style="height: 40px; padding-top: 30px; padding-bottom: 20px;">
-    
-             <!-- Language Selection Screen -->
-            <div id="languageSelectionScreen">
-                <div style="max-width: 450px; padding-left: 50px; padding-right: 50px; margin-left: auto; margin-right: auto;">
-                <p>Trilingo is designed for kids who wish to learn two mother languages. Select the two languages to begin.</p></div>
-                <div style="max-width: 500px; padding-top: 5px; padding-left: 20px; padding-right: 20px; margin-left: auto; margin-right: auto;">
-                    <button class="language-button" data-language="Arabic">Arabic</button>
-                    <button class="language-button" data-language="Chinese">Chinese</button>
-                    <button class="language-button" data-language="Japanese">Japanese</button>
-                    <button class="language-button" data-language="Korean">Korean</button>
-                    <button class="language-button" data-language="Malay">Malay</button>
-                    <button class="language-button" data-language="Tamil">Tamil</button>
-                    
-                    
-                    
-                </div>
-                <button class="button" id="selectLanguagesButton" disabled>Start Learning</button>
-            </div>
-    
-            <!-- Main App Screen (hidden initially) -->
-            <div id="mainAppScreen" style="display: none;">
-                <div id="uploadBox">
-                    <div id="cameraBox"></div>
-                    <img id="capturedImage" src="" style="display: none;">
-                </div>
+<div class="gradient-container">
+    <div class="container">
+        <img src="trilingo.png" alt="Trilingo Logo" style="height: 40px; padding-top: 30px; padding-bottom: 20px;">
+
+         <!-- Language Selection Screen -->
+        <div id="languageSelectionScreen">
+            <div style="max-width: 450px; padding-left: 50px; padding-right: 50px; margin-left: auto; margin-right: auto;">
+            <p>Trilingo is designed for kids who wish to learn two mother languages. Select the two languages to begin.</p></div>
+            <div style="max-width: 500px; padding-top: 5px; padding-left: 20px; padding-right: 20px; margin-left: auto; margin-right: auto;">
+            	<button class="language-button" data-language="Arabic">Arabic</button>
+                <button class="language-button" data-language="Chinese">Chinese</button>
+                <button class="language-button" data-language="Japanese">Japanese</button>
+                <button class="language-button" data-language="Korean">Korean</button>
+                <button class="language-button" data-language="Malay">Malay</button>
+                <button class="language-button" data-language="Tamil">Tamil</button>
                 
-                 <div class="action-button-container">
-            <input type="file" accept="image/*" capture="environment" id="fileInput" style="display: none;">
-            <button class="button" role="button" id="onCameraButton">Take a photo</button>
-            <div id="result"></div>
-    
-        <div class="welcomeMessage" id="welcomeMessage" style="display: block;">
-            <img src="up-arrow.png" class="arrow" alt="arrow"><br>
-            Take a photo of an animal, fruit or vehicle to learn what it is called in English and your two mother tongue languages.</div>
-    
-                    <div id="translationButtons" style="display: none;">
-                        <button id="Button1" class="resultsbutton hidden">Language1</button>
-                        <button id="Button2" class="resultsbutton hidden">Language2</button>
-                        <button id="Button3" class="resultsbutton hidden">Language3</button>
-                    </div>
-                </div>
+                
+                
             </div>
-    
-            <!-- Loading text -->
-            <div id="loadingText"><img src="loading.svg" class="loading" alt="loading"></div>
-            <!-- Sorry message -->
-            <div class="sorry-message" id="sorryText">Sorry. We couldn't tell what that is. Please try again.</div>
+            <button class="button" id="selectLanguagesButton" disabled>Start Learning</button>
+        </div>
+
+        <!-- Main App Screen (hidden initially) -->
+        <div id="mainAppScreen" style="display: none;">
+            <div id="uploadBox">
+                <div id="cameraBox"></div>
+                <img id="capturedImage" src="" style="display: none;">
+            </div>
             
-            <div class="footer-section" style="max-width: 600px; padding-left: 20px; padding-right: 20px; margin-left: auto; margin-right: auto; text-align: center;">
-                Please share your feedback with us at trilingotots@gmail.com.<br><br><a href="/">Restart</a>
+             <div class="action-button-container">
+        <input type="file" accept="image/*" capture="environment" id="fileInput" style="display: none;">
+        <button class="button" role="button" id="onCameraButton">Take a photo</button>
+        <div id="result"></div>
+
+    <div class="welcomeMessage" id="welcomeMessage" style="display: block;">
+	    <img src="up-arrow.png" class="arrow" alt="arrow"><br>
+	    Take a photo of an animal, fruit or vehicle to learn what it is called in English and your two mother tongue languages.</div>
+
+                <div id="translationButtons" style="display: none;">
+                    <button id="Button1" class="resultsbutton hidden">Language1</button>
+                    <button id="Button2" class="resultsbutton hidden">Language2</button>
+                    <button id="Button3" class="resultsbutton hidden">Language3</button>
+                </div>
             </div>
         </div>
+
+        <!-- Loading text -->
+        <div id="loadingText"><img src="loading.svg" class="loading" alt="loading"></div>
+        <!-- Sorry message -->
+        <div class="sorry-message" id="sorryText">Sorry. We couldn't tell what that is. Please try again.</div>
+        
+        <div class="footer-section" style="max-width: 600px; padding-left: 20px; padding-right: 20px; margin-left: auto; margin-right: auto; text-align: center;">
+            Please share your feedback with us at trilingotots@gmail.com.<br><br><a href="/">Restart</a>
+        </div>
     </div>
+</div>
     
 <script src="bundledscript2.js"></script>
 
