@@ -7,7 +7,8 @@ var languages = {
     Tamil: { code: "ta-IN", voice: "ta-IN-Standard-D" },
     Korean: { code: "ko-KR", voice: "ko-KR-Neural2-A" },
     Japanese: { code: "ja-JP", voice: "ja-JP-Neural2-B" },
-    Arabic: { code: "ar-XA", voice: "ar-XA-Standard-C" }
+    Arabic: { code: "ar-XA", voice: "ar-XA-Standard-C" },
+    Vietnamese: { code: "vi-VN", voice: "vi-VN-Standard-A" }
   };
   var languageCode1;
   var languageCode2;
