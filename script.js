@@ -1,128 +1,84 @@
 const { pinyin } = require('pinyin');
 
-var wordList = [
-      	"lion",
-       	"tiger",
-        "cat", 
-        "dog",
-        "zebra",
-        "horse",
-        "deer",
-        "pig",
-        "hippopotamus",
-        "panda",
-        "bear",
-        "rabbit",
-        "cow",
-        "sheep",
-        "giraffe",
-        "monkey",
-        "elephant",
-        "kangaroo",
-        "dolphin",
-        "whale",
-        "fish",
-        "turtle",
-        "penguin",
-        "parrot",
-        "crow",
-        "bird",
-        "butterfly",
-        "spider",
-        "ant",
-        "lizard",
-        "taxi",
-        "car",
-        "bus",
-        "fire engine",
-        "garbage truck",
-        "truck",
-        "bicycle",
-        "motorcycle",
-        "ambulance",
-        "van",
-        "train",
-        "boat",
-        "ship",
-        "helicopter",
-        "airplane",
-        "tractor",
-        "eyes",
-        "eye",
-        "nose",
-        "ear",
-        "ears",
-        "mouth",
-        "hair",
-        "face",
-        "neck",
-        "shoulder",
-        "hand",
-        "hands",
-        "elbow",
-        "arm",
-        "knee",
-        "feet",
-        "leg",
-        "fingers",
-        "finger",
-        "apple",
-        "banana",
-        "grapes",
-        "strawberry",
-        "watermelon",
-        "pineapple",
-        "peach",
-        "pear",
-        "mango",
-        "kiwi",
-        "blueberry",
-        "rasberry",
-        "cherry",
-        "durian",
-        "plum",
-        "lemon",
-        "lime",
-        "papaya",
-        "coconut",
-        "honeydew",
-        "starfruit",
-        "jackfruit",
-        "rambutan",
-        "orange",
-	"spoon",
-	"fork",
-	"chopsticks",
-	"butter knife",
-	"knife",
-	"plate",
-	"bowl",
-	"cup",
-	"bottle",
-	"toy",
-	"door",
-	"gate",
-	"remote control",
-	"fan",    
-];
+const languages = {
+    English: { code: 'en-GB', voice: 'en-GB-Standard-B' },
+    Malay: { code: 'ms-MY', voice: 'ms-MY-Standard-C' },
+    Chinese: { code: 'cmn-CN', voice: 'cmn-CN-Standard-A' },
+    Tamil: { code: 'ta-IN', voice: 'ta-IN-Standard-A' },
+    Korean: { code: 'ko-KR', voice: 'ko-KR-Neural2-A' },
+    Japanese: { code: 'ja-JP', voice: 'ja-JP-Neural2-B' },
+    Arabic: { code: 'ar-XA', voice: 'ar-XA-Standard-B' }
+};
 
-var firstTimeTriggered = true;
+let languageCode1, languageCode2, languageCode3;
+let voiceName1, voiceName2, voiceName3;
 
-        document.getElementById('onCameraButton').addEventListener('click', function() { 
-    // Clear previous results
-    clearResults();
+const selectedLanguages = [];
 
-    // Trigger file input
-    document.getElementById('fileInput').click();
+document.querySelectorAll('.language-button').forEach(button => {
+    button.addEventListener('click', () => {
+        const language = button.getAttribute('data-language');
+        if (selectedLanguages.includes(language)) {
+            const index = selectedLanguages.indexOf(language);
+            if (index > -1) {
+                selectedLanguages.splice(index, 1);
+                button.classList.remove('selected');
+            }
+        } else if (selectedLanguages.length < 2) {
+            selectedLanguages.push(language);
+            button.classList.add('selected');
+        }
 
-    // Hide welcome message after first trigger
-    if (firstTimeTriggered) {
-        document.getElementById('welcomeMessage').style.display = 'none';
-        firstTimeTriggered = false;
-    }
+        if (selectedLanguages.length === 2) {
+            document.getElementById('selectLanguagesButton').disabled = false;
+        } else {
+            document.getElementById('selectLanguagesButton').disabled = true;
+        }
+    });
 });
 
-        document.getElementById('fileInput').addEventListener('change', function(event) {
+document.getElementById('selectLanguagesButton').addEventListener('click', () => {
+    if (selectedLanguages.length === 2) {
+        languageCode1 = languages.English.code;
+        voiceName1 = languages.English.voice;
+
+        languageCode2 = languages[selectedLanguages[0]].code;
+        voiceName2 = languages[selectedLanguages[0]].voice;
+
+        languageCode3 = languages[selectedLanguages[1]].code;
+        voiceName3 = languages[selectedLanguages[1]].voice;
+
+        // Proceed to main app screen
+        document.getElementById('languageSelectionScreen').style.display = 'none';
+        document.getElementById('mainAppScreen').style.display = 'block';
+    }
+});
+        
+
+
+var wordList = [
+    "lion", "tiger", "cat", "dog", "zebra", "horse", "deer", "pig", "hippopotamus", "panda",
+    "bear", "rabbit", "cow", "sheep", "giraffe", "monkey", "elephant", "kangaroo", "dolphin",
+    "whale", "fish", "turtle", "penguin", "parrot", "crow", "bird", "butterfly", "spider", "ant",
+    "lizard", "taxi", "car", "bus", "fire engine", "garbage truck", "truck", "bicycle", "motorcycle",
+    "ambulance", "van", "train", "boat", "ship", "helicopter", "airplane", "tractor", "eyes", "eye",
+    "nose", "ear", "ears", "mouth", "hair", "face", "neck", "shoulder", "hand", "hands", "elbow", "arm",
+    "knee", "feet", "leg", "fingers", "finger", "apple", "banana", "grapes", "strawberry", "watermelon",
+    "pineapple", "peach", "pear", "mango", "kiwi", "blueberry", "raspberry", "cherry", "durian", "plum",
+    "lemon", "lime", "papaya", "coconut", "honeydew", "starfruit", "jackfruit", "rambutan", "orange",
+    "spoon", "fork", "chopsticks", "butter knife", "knife", "plate", "bowl", "cup", "bottle", "toy",
+    "door", "gate", "remote control", "fan"
+];
+
+
+document.getElementById('onCameraButton').addEventListener('click', function() { 
+        clearResults();
+    document.getElementById('fileInput').click();
+    document.getElementById('welcomeMessage').style.display = 'none';
+    
+});
+
+ document.getElementById('fileInput').addEventListener('change', function(event) {
             var file = event.target.files[0];
             if (file) {
                 var reader = new FileReader();
@@ -139,19 +95,22 @@ var firstTimeTriggered = true;
             }
         });
 
-        function clearResults() {
+
+function clearResults() {
             // Hide all buttons and result message
-            document.getElementById('englishButton').classList.add('hidden');
-            document.getElementById('malayButton').classList.add('hidden');
-            document.getElementById('chineseButton').classList.add('hidden');
+            document.getElementById('Button1').classList.add('hidden');
+            document.getElementById('Button2').classList.add('hidden');
+            document.getElementById('Button3').classList.add('hidden');
             document.getElementById('sorryText').style.display = 'none'; // Hide sorry message
             document.getElementById('translationButtons').style.display = 'none'; // Hide translation buttons
 
             // Hide loading text
             document.getElementById('loadingText').style.display = 'none';
+          
         }
-
-        function recognizeImage(imgData) {
+     
+ 
+ function recognizeImage(imgData) {
     // Display loading text
     document.getElementById('loadingText').style.display = 'block';
 
@@ -195,53 +154,61 @@ var firstTimeTriggered = true;
             // Hide loading text
             document.getElementById('loadingText').style.display = 'none';
         } else {
-            var englishText = "-";
+            var Text1 = "-";
             for (var i = 0; i < wordListLowercase.length; i++) {
                 if (labels.includes(wordListLowercase[i])) {
-                    englishText = wordList[i]; // Use the original word, not the lowercase version
+                    Text1 = wordList[i]; // Use the original word, not the lowercase version
                     break;
                 }
             }
 
-            if (englishText === "-") {
+            if (Text1 === "-") {
                 // If no matching word is found, display sorry message
                 document.getElementById('sorryText').style.display = 'block';
                 // Hide loading text
                 document.getElementById('loadingText').style.display = 'none';
             } else {
                 // Translate English text to Malay
-                translateText(englishText, 'en', 'ms').then(malayTranslation => {
+                translateText(Text1, languageCode1, languageCode2).then(Translation2 => {
                     // Translate English text to Chinese (Singapore)
-                    translateText(englishText, 'en', 'zh-CN').then(chineseTranslation => {
+                    translateText(Text1, languageCode1, languageCode3).then(Translation3 => {
                         // Hide loading text
                         document.getElementById('loadingText').style.display = 'none';
+                        
+                         // Display English button
+                       document.getElementById('Button1').innerHTML = `${Text1} <img src="speak-button.png" class="speak-icon" alt="Speak" /> `;
+                        document.getElementById('Button1').classList.remove('hidden');
+ 
 
-                        // Display Malay and Chinese buttons
-                       document.getElementById('malayButton').innerHTML = `${malayTranslation} <img src="speak-button.png" class="speak-icon" alt="Speak"/>`;
-                        document.getElementById('malayButton').classList.remove('hidden');
-
-                        var pinyinTranslation = pinyin(chineseTranslation);
+                        // Display Translated buttons
+if (languageCode2 === "cmn-CN") {
+var pinyinTranslation = pinyin(Translation2);
                        var pinyinText = pinyinTranslation.flat();
                        var pinyinspace = pinyinText.join(" ");
-                        document.getElementById('chineseButton').innerHTML = `${chineseTranslation}   /   ${pinyinspace} <img src="speak-button.png" class="speak-icon" alt="Speak" /> `;
-                        document.getElementById('chineseButton').setAttribute('data-chinese', chineseTranslation);
-                        document.getElementById('chineseButton').classList.remove('hidden');
+document.getElementById('Button2').innerHTML = `${Translation2}   /   ${pinyinspace} <img src="speak-button.png" class="speak-icon" alt="Speak"/>`;
+document.getElementById('Button2').setAttribute('data-chinese', Translation2);
+} else {
+document.getElementById('Button2').innerHTML = `${Translation2} <img src="speak-button.png" class="speak-icon" alt="Speak"/>`;
+}
 
-                        // Display English button
-                       document.getElementById('englishButton').innerHTML = `${englishText} <img src="speak-button.png" class="speak-icon" alt="Speak" /> `;
-                        document.getElementById('englishButton').classList.remove('hidden');
-
-                        // Show all translation buttons together
+document.getElementById('Button2').classList.remove('hidden');
+                        
+if (languageCode3 === "cmn-CN") {
+var pinyinTranslation = pinyin(Translation3);
+                       var pinyinText = pinyinTranslation.flat();
+                       var pinyinspace = pinyinText.join(" ");
+document.getElementById('Button3').innerHTML = `${Translation3}   /   ${pinyinspace} <img src="speak-button.png" class="speak-icon" alt="Speak"/>`;
+document.getElementById('Button3').setAttribute('data-chinese', Translation3);
+} else {
+document.getElementById('Button3').innerHTML = `${Translation3} <img src="speak-button.png" class="speak-icon" alt="Speak"/>`;
+}
+document.getElementById('Button3').classList.remove('hidden');
+                
+                                 
+                        
+// Show all translation buttons together
                         document.getElementById('translationButtons').style.display = 'block';
 
-                        // Automatic Play (Works on desktop only)
-                        // speak(englishText, 'en', () => {
-                        // speak(malayTranslation, 'ms', () => {
-                        // speak(chineseTranslation, 'zh');
-                        // });
-                        // });
-
-                        // Reset file input value
                         document.getElementById('fileInput').value = '';
                     });
                 });
@@ -280,27 +247,27 @@ var firstTimeTriggered = true;
             return data.data.translations[0].translatedText;
         }
         
-        async function speak(text, language, callback) {
+         async function speak(text, language, callback) {
     var apiKey = 'AIzaSyDQUaEzdQy4i-5thYcP4OA5rzMfMYc5BMM';
     
     var voiceName;
     var languageCode;
     switch (language) {
-        case 'en':
-            voiceName = 'en-GB-Standard-B';
-            languageCode = 'en-GB';
+        case languageCode1:
+            voiceName = voiceName1;
+            languageCode = languageCode1;
             break;
-        case 'ms':
-            voiceName = 'ms-MY-Standard-C';
-            languageCode = 'ms-MY';
+        case languageCode2:
+            voiceName = voiceName2;
+            languageCode = languageCode2;
             break;
-        case 'zh':
-            voiceName = 'cmn-CN-Standard-A';
-            languageCode = 'cmn-CN';
+        case languageCode3:
+            voiceName = voiceName3;
+            languageCode = languageCode3;
             break;
         default:
-            voiceName = 'en-GB-Standard-B';
-            languageCode = 'en-GB';
+            voiceName = voiceName1;
+            languageCode = languageCode1;
     }
 
     var url = 'https://texttospeech.googleapis.com/v1/text:synthesize?key=' + apiKey;
@@ -334,14 +301,14 @@ var firstTimeTriggered = true;
             // Identify the corresponding button
             var buttonId;
             switch (language) {
-                case 'en':
-                    buttonId = 'englishButton';
+                case languageCode1:
+                    buttonId = 'Button1';
                     break;
-                case 'ms':
-                    buttonId = 'malayButton';
+                case languageCode2:
+                    buttonId = 'Button2';
                     break;
-                case 'zh':
-                    buttonId = 'chineseButton';
+                case languageCode3:
+                    buttonId = 'Button3';
                     break;
             }
 
@@ -366,21 +333,31 @@ var firstTimeTriggered = true;
 
 document.addEventListener('DOMContentLoaded', function() {
     // Add event listener for English button
-    document.getElementById('englishButton').addEventListener('click', function() {
-        var englishText = document.getElementById('englishButton').innerText;
-        speak(englishText, 'en');
+    document.getElementById('Button1').addEventListener('click', function() {
+        var textA = document.getElementById('Button1').innerText;
+        speak(textA, languageCode1)
     });
 
     // Add event listener for Malay button
-    document.getElementById('malayButton').addEventListener('click', function() {
-        var malayText = document.getElementById('malayButton').innerText;
-        speak(malayText, 'ms');
+    document.getElementById('Button2').addEventListener('click', function() {
+    if (languageCode2 === "cmn-CN") {
+    var textB = document.getElementById('Button2').getAttribute('data-chinese');
+    speak(textB, languageCode2);
+    } else {
+        var textB = document.getElementById('Button2').innerText;
+        speak(textB, languageCode2);
+        }
     });
 
     // Add event listener for Chinese button
-    document.getElementById('chineseButton').addEventListener('click', function() {
-        var chineseText = document.getElementById('chineseButton').getAttribute('data-chinese');       
-        speak(chineseText, 'zh');
+    document.getElementById('Button3').addEventListener('click', function() {
+    if (languageCode3 === "cmn-CN") {
+    var textC = document.getElementById('Button3').getAttribute('data-chinese'); 
+    speak(textC, languageCode3);
+    } else {
+        var textC = document.getElementById('Button3').innerText;
+        speak(textC, languageCode3);
+    }
     });
 });
 
